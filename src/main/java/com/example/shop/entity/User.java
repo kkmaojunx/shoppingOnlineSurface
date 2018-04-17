@@ -1,6 +1,7 @@
 package com.example.shop.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Entity
@@ -14,6 +15,7 @@ public class User {
     private String username;    // 用户名
     @Column(length = 255)
     private String password;    // 密码
+    @Past                       // 必须为一个过去的时间
     private Date birthday;      // 生日
     @Column(length = 255)
     private String content;     // 个人介绍
@@ -75,5 +77,18 @@ public class User {
 
     public void setUserStatus(Integer userStatus) {
         this.userStatus = userStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", birthday=" + birthday +
+                ", content='" + content + '\'' +
+                ", imageHead='" + imageHead + '\'' +
+                ", userStatus=" + userStatus +
+                '}';
     }
 }
