@@ -12,10 +12,10 @@ public interface ShopTrolleyService {
 
     /**
      * 查询用户的购物车通过用户id
-     * @param user  用户id
+     * @param shopTrolley  用户id
      * @return
      */
-    public List<ShopTrolley> ShopTrolleyByUserId(User user);
+    public List<ShopTrolley> ShopTrolleyByUserId(ShopTrolley shopTrolley);
 
     /**
      * 添加商品到购物车
@@ -23,4 +23,12 @@ public interface ShopTrolleyService {
      * @return
      */
     public Integer appendShopToShopTrolley(ShopTrolley shopTrolley);
+
+    /**
+     * 删除购物车商品通过id
+     * @param id    购物车id
+     */
+    public void removeShopTrolleyById(Integer id);
+
+    // public void buyShopByShopTrolleyById(Integer id);
 }

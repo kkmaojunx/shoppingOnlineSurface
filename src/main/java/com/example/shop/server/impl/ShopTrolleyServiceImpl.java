@@ -25,18 +25,21 @@ public class ShopTrolleyServiceImpl implements ShopTrolleyService {
 
     /**
      * 购物车商品查询
-     * @param user  用户id
+     * @param shopTrolley  用户id
      * @return
      */
     @Override
-    public List<ShopTrolley> ShopTrolleyByUserId(User user) {
+    public List<ShopTrolley> ShopTrolleyByUserId(ShopTrolley shopTrolley) {
         List<ShopTrolley> shopTrolleys = shopTrolleyRepository.findAll(new Specification<ShopTrolley>() {
             @Override
             public Predicate toPredicate(Root<ShopTrolley> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 Predicate predicate = criteriaBuilder.conjunction();
-                if (user != null) {
-                    if (user.getId() != null) {
-                        predicate.getExpressions().add(criteriaBuilder.equal(root.get("userid"), user.getId()));
+                if (shopTrolley != null) {
+                    if (shopTrolley.getUserid().getId() != null) {
+                        predicate.getExpressions().add(criteriaBuilder.equal(root.get("userid"), shopTrolley.getUserid().getId()));
+                    }
+                    if (shopTrolley.getBuy() != null) {
+                        predicate.getExpressions().add(criteriaBuilder.equal(root.get("buy"), shopTrolley.getBuy()));
                     }
                 }
                 return predicate;
@@ -54,5 +57,14 @@ public class ShopTrolleyServiceImpl implements ShopTrolleyService {
     public Integer appendShopToShopTrolley(ShopTrolley shopTrolley) {
         shopTrolleyRepository.save(shopTrolley);
         return null;
+    }
+
+    /**
+     * 删除购物车商品通过id
+     * @param id    购物车id
+     */
+    @Override
+    public void removeShopTrolleyById(Integer id) {
+        shopTrolleyRepository.deleteById(id);
     }
 }

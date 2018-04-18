@@ -1,11 +1,15 @@
 package com.example.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "activity")
-public class Activity {
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
+public class Activity implements Serializable {
 
     @Id
     @GeneratedValue
@@ -15,7 +19,7 @@ public class Activity {
     @Column(length = 255)
     private String imageUrl;    // 活动配图
     private Integer shopid;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "sid")
     private Set<File> fileid;
 

@@ -11,7 +11,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "shopping")
-@JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class Shopping implements Serializable {
 
     @Id
@@ -19,7 +19,7 @@ public class Shopping implements Serializable {
     private Integer id;         // 主键
     @Column(length = 255)
     private String title;        // 商品名字
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "sid")
     private Set<File> imageurl;      // 图片
     private Integer oldmoney;      // 老旧的价格
@@ -31,10 +31,10 @@ public class Shopping implements Serializable {
     private String activity_img;
     private Integer activity;   // 是否活动
     private Integer count;      // 查看次数
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "shopid")
     private Set<ShopLabel> label;    // 商品标签
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "merchant_id")
     private Merchant merchantid; // 商家信息
 

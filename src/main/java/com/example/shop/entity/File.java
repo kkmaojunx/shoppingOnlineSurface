@@ -1,10 +1,14 @@
 package com.example.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "file")
-public class File {
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
+public class File implements Serializable {
 
     @Id
     @GeneratedValue

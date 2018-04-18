@@ -1,13 +1,17 @@
 package com.example.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 商品标签
  */
 @Entity
 @Table(name = "shoplabel")
-public class ShopLabel {
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
+public class ShopLabel implements Serializable {
 
     @Id
     @GeneratedValue
@@ -39,5 +43,14 @@ public class ShopLabel {
 
     public void setShopid(Integer shopid) {
         this.shopid = shopid;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopLabel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", shopid=" + shopid +
+                '}';
     }
 }

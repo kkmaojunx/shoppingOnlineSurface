@@ -1,5 +1,6 @@
 package com.example.shop.controller;
 
+import com.example.shop.entity.File;
 import com.example.shop.entity.Shopping;
 import com.example.shop.server.ShoppingService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -57,8 +59,22 @@ public class ShoppingController {
      */
     @RequestMapping("/search")
     public Map<String, Object> searchShop(Shopping shopping) {
-        List<Shopping> shoppingList = shoppingService.searchShoppingList(shopping);
         Map<String, Object> stringObjectMap = new HashMap<>();
+        if (shopping == null) {
+            stringObjectMap.put("code", 0);
+            stringObjectMap.put("msg", "请输入或者选择条件再进行查询");
+            return stringObjectMap;
+        }
+        List<Shopping> shoppingList = shoppingService.searchShoppingList(shopping);
+        Iterator<Shopping> shoppingIterator =  shoppingList.listIterator();
+        while (shoppingIterator.hasNext()) {
+            Shopping shopping1 = shoppingIterator.next();
+            File file = (File) shopping1.getImageurl().toArray()[0];
+            shopping1.setActivity_img(file.getUrl());
+            shopping1.setImageurl(null);
+            shopping1.setLabel(null);
+            shopping1.setMerchantid(null);
+        }
         stringObjectMap.put("code", 1);
         stringObjectMap.put("msg", "成功");
         stringObjectMap.put("info", shoppingList);

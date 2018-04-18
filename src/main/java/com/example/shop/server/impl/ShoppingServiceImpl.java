@@ -73,6 +73,9 @@ public class ShoppingServiceImpl implements ShoppingService {
                     if (shopping.getTitle() != null) {
                         predicate.getExpressions().add(criteriaBuilder.like(root.get("title"), "%" + shopping.getTitle() + "%"));
                     }
+                    if (shopping.getHot() != null) {
+                        predicate.getExpressions().add(criteriaBuilder.equal(root.get("hot"), shopping.getHot()));
+                    }
                 }
                 return predicate;
             }
