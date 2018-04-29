@@ -27,7 +27,7 @@ public class Shopping implements Serializable {
     @Lob
     @Column(columnDefinition = "TEXT")
     private String content;     // 商品描述
-    private Integer hot;        // 热度
+    private String hot;        // 热度    1 2 3 4
     private String activity_img;
     private Integer activity;   // 是否活动
     private Integer count;      // 查看次数
@@ -86,12 +86,20 @@ public class Shopping implements Serializable {
         this.content = content;
     }
 
-    public Integer getHot() {
+    public String getHot() {
         return hot;
     }
 
-    public void setHot(Integer hot) {
+    public void setHot(String hot) {
         this.hot = hot;
+    }
+
+    public String getActivity_img() {
+        return activity_img;
+    }
+
+    public void setActivity_img(String activity_img) {
+        this.activity_img = activity_img;
     }
 
     public Integer getActivity() {
@@ -124,13 +132,5 @@ public class Shopping implements Serializable {
 
     public void setMerchantid(Merchant merchantid) {
         this.merchantid = merchantid;
-    }
-
-    public String getActivity_img() {
-        return activity_img;
-    }
-
-    public void setActivity_img(String activity_img) {
-        this.activity_img = activity_img;
     }
 }

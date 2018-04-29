@@ -70,10 +70,10 @@ public class ShoppingServiceImpl implements ShoppingService {
             public Predicate toPredicate(Root<Shopping> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 Predicate predicate = criteriaBuilder.conjunction();
                 if (shopping != null) {
-                    if (shopping.getTitle() != null) {
+                    if (shopping.getTitle() != null && !"".equals(shopping.getTitle()) && !"null".equals(shopping.getTitle())) {
                         predicate.getExpressions().add(criteriaBuilder.like(root.get("title"), "%" + shopping.getTitle() + "%"));
                     }
-                    if (shopping.getHot() != null) {
+                    if (shopping.getHot() != null && !"".equals(shopping.getHot()) && !"null".equals(shopping.getHot())) {
                         predicate.getExpressions().add(criteriaBuilder.equal(root.get("hot"), shopping.getHot()));
                     }
                 }

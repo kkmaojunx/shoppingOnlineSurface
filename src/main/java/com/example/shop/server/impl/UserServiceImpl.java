@@ -68,4 +68,14 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(User user) {
         userRepository.deleteById(user.getId());
     }
+
+    /**
+     * 查询用户主页信息
+     * @param user
+     * @return
+     */
+    @Override
+    public User findUserMainInfo(User user) {
+        return userRepository.getOne(user.getId());
+    }
 }

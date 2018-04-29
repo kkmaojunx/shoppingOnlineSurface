@@ -30,5 +30,17 @@ public interface ShopTrolleyService {
      */
     public void removeShopTrolleyById(Integer id);
 
-    // public void buyShopByShopTrolleyById(Integer id);
+    /**
+     * 已购买数量
+     * @param shopTrolley
+     * @return
+     */
+    public Long alreadyBuyTotal(ShopTrolley shopTrolley);
+
+    /**
+     * 通过id查询单个实体类
+     * @param id
+     * @return
+     */
+    public ShopTrolley findOneShopTrolley(Integer id);
 }

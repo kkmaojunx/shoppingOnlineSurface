@@ -45,6 +45,7 @@ public class ShopTrolleyController {
                 shopTrolley.setTrolleyImg(shopTrolley.getShoppingid().getActivity_img());
                 shopTrolley.setShoptitle(shopTrolley.getShoppingid().getTitle());
                 shopTrolley.setMoney(shopTrolley.getShoppingid().getRealmoney());
+                System.out.println(shopTrolley);
                 shopTrolley.setLableName(shopTrolley.getShoplabelid().getName());
                 shopTrolley.setUserid(null);
                 shopTrolley.setShoppingid(null);
@@ -120,8 +121,7 @@ public class ShopTrolleyController {
         } else {
             String[] strings = ids.split(",");
             for (int i = 0; i < strings.length; i++) {
-                ShopTrolley shopTrolley = new ShopTrolley();
-                shopTrolley.setId(Integer.parseInt(strings[i]));
+                ShopTrolley shopTrolley = shopTrolleyService.findOneShopTrolley(Integer.parseInt(strings[i]));
                 shopTrolley.setBuy(1);
                 try {
                     shopTrolleyService.appendShopToShopTrolley(shopTrolley);

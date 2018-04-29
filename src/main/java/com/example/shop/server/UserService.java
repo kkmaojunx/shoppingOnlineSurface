@@ -26,4 +26,11 @@ public interface UserService {
      * @param user
      */
     public void deleteUser(User user);
+
+    /**
+     * 查询用户主页信息
+     * @param user
+     * @return
+     */
+    public User findUserMainInfo(User user);
 }

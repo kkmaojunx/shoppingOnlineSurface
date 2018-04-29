@@ -67,4 +67,38 @@ public class ShopTrolleyServiceImpl implements ShopTrolleyService {
     public void removeShopTrolleyById(Integer id) {
         shopTrolleyRepository.deleteById(id);
     }
+
+    /**
+     * 已购买和购物车数量
+     * @param shopTrolley
+     * @return
+     */
+    @Override
+    public Long alreadyBuyTotal(ShopTrolley shopTrolley) {
+        return shopTrolleyRepository.count(new Specification<ShopTrolley>() {
+            @Override
+            public Predicate toPredicate(Root<ShopTrolley> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                Predicate predicate = criteriaBuilder.conjunction();
+                if (shopTrolley != null) {
+                    if (shopTrolley.getUserid() != null) {
+                        predicate.getExpressions().add(criteriaBuilder.equal(root.get("userid"), shopTrolley.getUserid()));
+                    }
+                    if (shopTrolley.getBuy() != null) {
+                        predicate.getExpressions().add(criteriaBuilder.equal(root.get("buy"), shopTrolley.getBuy()));
+                    }
+                }
+                return predicate;
+            }
+        });
+    }
+
+    /**
+     * 通过id查询单个实体类
+     * @param id
+     * @return
+     */
+    @Override
+    public ShopTrolley findOneShopTrolley(Integer id) {
+        return shopTrolleyRepository.getOne(id);
+    }
 }

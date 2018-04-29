@@ -2,12 +2,14 @@ package com.example.shop.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "shoptrolley")
+@DynamicUpdate
 @JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class ShopTrolley implements Serializable {
 
@@ -26,7 +28,7 @@ public class ShopTrolley implements Serializable {
     @ManyToOne
     @JoinColumn(name = "label_id")
     private ShopLabel shoplabelid;                                        // 标签
-    private Integer buy = 0;                                                // 是否购买 0:在购物车 1：已购买 2：退回
+    private Integer buy = 0;                                                // 是否购买 0:在购物车 1：已购买 2：退回 3：已发货 4：待发货
     @Transient
     private String trolleyImg;                                          // 商品图片
     @Transient

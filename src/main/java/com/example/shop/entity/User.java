@@ -25,7 +25,16 @@ public class User implements Serializable {
     private String content;     // 个人介绍
     @Column(length = 255)
     private String imageHead;   // 头像
+    @Column(length = 255)
+    private String imageBackground; // 背景图片
     private Integer userStatus; // 用户身份  1为商家   2为买家
+
+    @Transient
+    private Integer alreadyBuy; // 已经购买数量
+    @Transient
+    private Integer shopBus;    // 购物车数量
+    @Transient
+    private Integer objectFlowIndent;   // 物流订单
 
     public Integer getId() {
         return id;
@@ -83,16 +92,35 @@ public class User implements Serializable {
         this.userStatus = userStatus;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", birthday=" + birthday +
-                ", content='" + content + '\'' +
-                ", imageHead='" + imageHead + '\'' +
-                ", userStatus=" + userStatus +
-                '}';
+    public String getImageBackground() {
+        return imageBackground;
+    }
+
+    public void setImageBackground(String imageBackground) {
+        this.imageBackground = imageBackground;
+    }
+
+    public Integer getAlreadyBuy() {
+        return alreadyBuy;
+    }
+
+    public void setAlreadyBuy(Integer alreadyBuy) {
+        this.alreadyBuy = alreadyBuy;
+    }
+
+    public Integer getShopBus() {
+        return shopBus;
+    }
+
+    public void setShopBus(Integer shopBus) {
+        this.shopBus = shopBus;
+    }
+
+    public Integer getObjectFlowIndent() {
+        return objectFlowIndent;
+    }
+
+    public void setObjectFlowIndent(Integer objectFlowIndent) {
+        this.objectFlowIndent = objectFlowIndent;
     }
 }
