@@ -35,6 +35,8 @@ public class ShopTrolley implements Serializable {
     private Integer money;                                              // 价格
     @Transient
     private String lableName;                                           // 标签名字
+    @Transient
+    private Integer hot;                                                // 商品热度
 
     public Integer getId() {
         return id;
@@ -114,5 +116,13 @@ public class ShopTrolley implements Serializable {
 
     public void setLableName(String lableName) {
         this.lableName = lableName;
+    }
+
+    public Integer getHot() {
+        return hot;
+    }
+
+    public void setHot(Integer hot) {
+        this.hot = hot;
     }
 }

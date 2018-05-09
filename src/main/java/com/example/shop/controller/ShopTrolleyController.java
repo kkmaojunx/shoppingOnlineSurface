@@ -45,8 +45,8 @@ public class ShopTrolleyController {
                 shopTrolley.setTrolleyImg(shopTrolley.getShoppingid().getActivity_img());
                 shopTrolley.setShoptitle(shopTrolley.getShoppingid().getTitle());
                 shopTrolley.setMoney(shopTrolley.getShoppingid().getRealmoney());
-                System.out.println(shopTrolley);
                 shopTrolley.setLableName(shopTrolley.getShoplabelid().getName());
+                shopTrolley.setHot(Integer.valueOf(shopTrolley.getShoppingid().getHot()));
                 shopTrolley.setUserid(null);
                 shopTrolley.setShoppingid(null);
                 shopTrolley.setShoplabelid(null);

@@ -5,6 +5,7 @@ import com.example.shop.entity.ShopTrolley;
 import com.example.shop.entity.User;
 import com.example.shop.server.ShopTrolleyService;
 import com.example.shop.server.UserService;
+import com.example.shop.util.FileUtil;
 import com.example.shop.util.ResponseUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -122,6 +124,7 @@ public class UserController {
 
     /**
      * 用户主页查询
+     *
      * @param request
      * @param response
      * @return
@@ -148,30 +151,54 @@ public class UserController {
 
     /**
      * 用户修改头像以及背景图片
+     *
      * @param multipartFile
      * @param request
      * @return
      */
     @RequestMapping("/updateImage")
-    public Map<String, Object> updateImage(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request) throws Exception {
+    public Map<String, Object> updateImage(@RequestParam("file") MultipartFile multipartFile, User user, HttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<>();
         if (multipartFile.isEmpty()) {
             map.put("code", 0);
             map.put("msg", "请选择文件再进行上传");
             return map;
         }
-        HttpSession session = request.getSession();
+//        对内使用的路径地址
+        String filePath = request.getServletContext().getRealPath("/");
+//        删除文件
+        String uploadFileName = null;
+        if (user.getImageHead() != null) {
+            uploadFileName = user.getImageHead();
+        } else if (user.getImageBackground() != null) {
+            uploadFileName = user.getImageBackground();
+        }
+        java.io.File files = new java.io.File(filePath, uploadFileName);
+        System.out.println(files.toString());
+        if (files.exists()) {
+            files.delete();
+        }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHssmm");
-        String string =  simpleDateFormat.format(new Date());
-        String fileName = string + ".jpg";
-        String filePath = request.getServletContext().getRealPath("/static/images/");
+        String string = simpleDateFormat.format(new Date());
+//        图片名字
+        String fileName = FileUtil.fileMiddleLocal() + string + ".jpg";
         java.io.File file = new java.io.File(filePath, fileName);
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
         try {
-            System.out.println(request.getContextPath());
             multipartFile.transferTo(new java.io.File(filePath + java.io.File.separator + fileName));
+            HttpSession session = request.getSession();
+            User sessionUser = (User) session.getAttribute("user");
+            user.setId(sessionUser.getId());
+            User user1 = userService.findUserMainInfo(user);
+            user1.setIpAddress(FileUtil.ipHttpAddress());
+            if (user.getImageHead() != null) {
+                user1.setImageHead(fileName);
+            } else if (user.getImageBackground() != null) {
+                user1.setImageBackground(fileName);
+            }
+            userService.registerUser(user1);
             map.put("code", 1);
             map.put("msg", "文件上传成功");
         } catch (IOException e) {

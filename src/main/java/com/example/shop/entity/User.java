@@ -24,6 +24,8 @@ public class User implements Serializable {
     @Column(length = 255)
     private String content;     // 个人介绍
     @Column(length = 255)
+    private String ipAddress;
+    @Column(length = 255)
     private String imageHead;   // 头像
     @Column(length = 255)
     private String imageBackground; // 背景图片
@@ -122,5 +124,13 @@ public class User implements Serializable {
 
     public void setObjectFlowIndent(Integer objectFlowIndent) {
         this.objectFlowIndent = objectFlowIndent;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 }
