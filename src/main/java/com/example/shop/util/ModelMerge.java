@@ -9,6 +9,7 @@ public class ModelMerge {
 
     /**
      * 合并模型，利用引用传递进行操作，不需用返回任何信息
+     *
      * @param a 用于合并的模型
      * @param b 用于被提取的模型
      */
@@ -22,14 +23,15 @@ public class ModelMerge {
             Field field2 = fields2[i];
             field1.setAccessible(true);
             field2.setAccessible(true);
+            //  && !field1.get(a).equals(field2.get(b))
             try {
-                //  && !field1.get(a).equals(field2.get(b))
-                if (field1.get(b) != null && !field1.get(a).equals(field2.get(b))) {
+                if (field2.get(b) != null && !field1.get(a).equals(field2.get(b))) {
                     field1.set(a, field2.get(b));
                 }
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                System.out.println("在合并类中转换出错了=======" + e.getMessage());
             }
+
         }
     }
 }
