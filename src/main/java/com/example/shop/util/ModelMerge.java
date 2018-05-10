@@ -23,6 +23,7 @@ public class ModelMerge {
             field1.setAccessible(true);
             field2.setAccessible(true);
             try {
+                //  && !field1.get(a).equals(field2.get(b))
                 if (field1.get(b) != null && !field1.get(a).equals(field2.get(b))) {
                     field1.set(a, field2.get(b));
                 }

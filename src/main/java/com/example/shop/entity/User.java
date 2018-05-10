@@ -10,10 +10,11 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.TimeZone;
 
 @Entity
 @Table(name = "user")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
 public class User implements Serializable {
 
     @Id
@@ -21,16 +22,15 @@ public class User implements Serializable {
     private Integer id;         // 主键
     @Column(length = 255)
     @NotEmpty(message = "用户名不为空")
-    private String username;    // 用户名
+    private String username;                                    // 用户名
     @Column(length = 255)
     @NotEmpty(message = "密码不为空")
     private String password;    // 密码
     @Past(message = "必须为一个过去的时间")                       // 必须为一个过去的时间
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date birthday;      // 生日
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthday;                                       // 生日
     @Column(length = 11)
-//    @Pattern(regexp = "^((13[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(147))\\\\d{8}$", message = "手机号码验证规则不通过")
-//    @NotEmpty(message = "电话号码不为空")
     private Long phone;         // 电话号码
     @Column(length = 255)
     private String content;     // 个人介绍
@@ -48,6 +48,10 @@ public class User implements Serializable {
     private Integer shopBus;    // 购物车数量
     @Transient
     private Integer objectFlowIndent;   // 物流订单
+    @Transient
+    private String headLocal;           // 头像临时路径
+    @Transient
+    private String backgroundLocal;     // 背景图片临时路径
 
     public Integer getId() {
         return id;
@@ -74,11 +78,21 @@ public class User implements Serializable {
     }
 
     public Date getBirthday() {
+        //这里由于有夏令营时间存在 这是要默认设置时区，@see http://www.cnblogs.com/memory4young/p/java-timezone.html
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+08"));
         return birthday;
     }
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public Long getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Long phone) {
+        this.phone = phone;
     }
 
     public String getContent() {
@@ -89,6 +103,14 @@ public class User implements Serializable {
         this.content = content;
     }
 
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
     public String getImageHead() {
         return imageHead;
     }
@@ -97,20 +119,20 @@ public class User implements Serializable {
         this.imageHead = imageHead;
     }
 
-    public Integer getUserStatus() {
-        return userStatus;
-    }
-
-    public void setUserStatus(Integer userStatus) {
-        this.userStatus = userStatus;
-    }
-
     public String getImageBackground() {
         return imageBackground;
     }
 
     public void setImageBackground(String imageBackground) {
         this.imageBackground = imageBackground;
+    }
+
+    public Integer getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(Integer userStatus) {
+        this.userStatus = userStatus;
     }
 
     public Integer getAlreadyBuy() {
@@ -137,20 +159,40 @@ public class User implements Serializable {
         this.objectFlowIndent = objectFlowIndent;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
+    public String getHeadLocal() {
+        return headLocal;
     }
 
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
+    public void setHeadLocal(String headLocal) {
+        this.headLocal = headLocal;
     }
 
-    public Long getPhone() {
-        return phone;
+    public String getBackgroundLocal() {
+        return backgroundLocal;
     }
 
-    public void setPhone(Long phone) {
-        this.phone = phone;
+    public void setBackgroundLocal(String backgroundLocal) {
+        this.backgroundLocal = backgroundLocal;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", birthday=" + birthday +
+                ", phone=" + phone +
+                ", content='" + content + '\'' +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", imageHead='" + imageHead + '\'' +
+                ", imageBackground='" + imageBackground + '\'' +
+                ", userStatus=" + userStatus +
+                ", alreadyBuy=" + alreadyBuy +
+                ", shopBus=" + shopBus +
+                ", objectFlowIndent=" + objectFlowIndent +
+                ", headLocal='" + headLocal + '\'' +
+                ", backgroundLocal='" + backgroundLocal + '\'' +
+                '}';
+    }
 }

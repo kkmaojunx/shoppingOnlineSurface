@@ -24,6 +24,8 @@ public class ObjectFlowAddress {
     @Column(length = 11)
     @NotEmpty(message = "电话号码不为空")
     private Long phone;         // 电话号码
+    @Column(length = 255)
+    private String name;        // 收货人
 
     public Integer getId() {
         return id;
@@ -55,5 +57,13 @@ public class ObjectFlowAddress {
 
     public void setPhone(Long phone) {
         this.phone = phone;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

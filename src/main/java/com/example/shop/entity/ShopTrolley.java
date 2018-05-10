@@ -16,7 +16,7 @@ public class ShopTrolley implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;                                                 // 主键
-    @OneToOne(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User userid;                                                // 用户id
     @Column(length = 255)
@@ -124,5 +124,22 @@ public class ShopTrolley implements Serializable {
 
     public void setHot(Integer hot) {
         this.hot = hot;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopTrolley{" +
+                "id=" + id +
+                ", userid=" + userid +
+                ", shoptitle='" + shoptitle + '\'' +
+                ", shopcount=" + shopcount +
+                ", shoppingid=" + shoppingid +
+                ", shoplabelid=" + shoplabelid +
+                ", buy=" + buy +
+                ", trolleyImg='" + trolleyImg + '\'' +
+                ", money=" + money +
+                ", lableName='" + lableName + '\'' +
+                ", hot=" + hot +
+                '}';
     }
 }

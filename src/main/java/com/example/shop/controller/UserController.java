@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,15 +47,29 @@ public class UserController {
      * @throws Exception
      */
     @RequestMapping("/register")
-    public void registerUser(User user, HttpServletResponse response) throws Exception {
+    public void registerUser(User user, @RequestParam(value = "repetition", required = false) String rePassword, HttpServletResponse response) throws Exception {
         JSONObject jsonObject = new JSONObject();
         User user1 = userService.findUser(user);
         if (user.getId() != null) {
-            // 合并模型
-            ModelMerge.modelMergeByModel(user1, user);
-            userService.registerUser(user1);
-            jsonObject.put("code", 1);
-            jsonObject.put("msg", "修改成功");
+            if (user.getPassword() == null && rePassword == null) {
+                // 合并模型
+                ModelMerge.modelMergeByModel(user1, user);
+                userService.registerUser(user1);
+                jsonObject.put("code", 1);
+                jsonObject.put("msg", "修改成功");
+            } else {
+                if (user.getPassword() != null && rePassword != null && user.getPassword().equals(rePassword)) {
+                    // 合并模型
+                    ModelMerge.modelMergeByModel(user1, user);
+                    userService.registerUser(user1);
+                    jsonObject.put("code", 1);
+                    jsonObject.put("msg", "密码修改成功");
+                } else {
+                    jsonObject.put("code", 0);
+                    jsonObject.put("msg", "密码修改失败，请检查后重新输入");
+                }
+            }
+
         } else {
             if (user.getUsername() != null && user.getPassword() != null) {
                 if (user1 != null) {
@@ -144,8 +159,14 @@ public class UserController {
         user.setShopBus(Integer.valueOf(String.valueOf(shopTrolleyService.alreadyBuyTotal(shopTrolley))));
         shopTrolley.setBuy(3);
         user.setObjectFlowIndent(Integer.valueOf(String.valueOf(shopTrolleyService.alreadyBuyTotal(shopTrolley))));
+        user.setHeadLocal(user.getIpAddress() + user.getImageHead());
+        user.setBackgroundLocal(user.getIpAddress() + user.getImageBackground());
         stringObjectMap.put("code", 1);
         stringObjectMap.put("msg", "成功");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(user.getBirthday());
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        user.setBirthday(calendar.getTime());
         stringObjectMap.put("info", user);
         return stringObjectMap;
     }
@@ -159,6 +180,7 @@ public class UserController {
      */
     @RequestMapping("/updateImage")
     public Map<String, Object> updateImage(@RequestParam("file") MultipartFile multipartFile, User user, HttpServletRequest request) throws Exception {
+        System.out.println(multipartFile);
         Map<String, Object> map = new HashMap<>();
         if (multipartFile.isEmpty()) {
             map.put("code", 0);
@@ -188,9 +210,6 @@ public class UserController {
         }
         try {
             multipartFile.transferTo(new java.io.File(filePath + java.io.File.separator + fileName));
-            HttpSession session = request.getSession();
-            User sessionUser = (User) session.getAttribute("user");
-            user.setId(sessionUser.getId());
             User user1 = userService.findUserMainInfo(user);
             user1.setIpAddress(FileUtil.ipHttpAddress());
             if (user.getImageHead() != null) {
@@ -208,6 +227,30 @@ public class UserController {
             map.put("msg", "失败，请重试");
         }
         return map;
+    }
+
+    /**
+     * 修改密码，验证原密码对不对
+     * @param user
+     * @return
+     */
+    @RequestMapping("/validPassword")
+    public Map<String, Object> validPasswordIsOk(User user) {
+        Map<String, Object> stringObjectMap = new HashMap<>();
+        if (user.getPassword() == null || "".equals(user.getPassword())) {
+            stringObjectMap.put("code", 0);
+            stringObjectMap.put("msg", "原密码未输入，请输入原密码");
+        } else {
+            User user1 = userService.findUser(user);
+            if (user1.getPassword().equals(user.getPassword())) {
+                stringObjectMap.put("code", 1);
+                stringObjectMap.put("msg", "密码验证正确，请继续下一步");
+            } else {
+                stringObjectMap.put("code", 0);
+                stringObjectMap.put("msg", "原密码错误，请重新输入");
+            }
+        }
+        return stringObjectMap;
     }
 
 }
