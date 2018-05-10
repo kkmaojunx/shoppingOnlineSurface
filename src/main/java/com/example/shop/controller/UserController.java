@@ -1,12 +1,15 @@
 package com.example.shop.controller;
 
+import com.example.shop.entity.ObjectFlowAddress;
 import com.example.shop.entity.ShopTrolley;
 import com.example.shop.entity.User;
 import com.example.shop.server.ShopTrolleyService;
 import com.example.shop.server.UserService;
 import com.example.shop.util.FileUtil;
+import com.example.shop.util.ModelMerge;
 import com.example.shop.util.ResponseUtil;
 import org.json.JSONObject;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,7 +39,7 @@ public class UserController {
     private ShopTrolleyService shopTrolleyService;
 
     /**
-     * 用户注册 或者修改
+     * 用户注册 或者修改 ，有id就是修改，没有id就是注册
      *
      * @param user     用户数据  username password or id
      * @param response
@@ -46,6 +50,8 @@ public class UserController {
         JSONObject jsonObject = new JSONObject();
         User user1 = userService.findUser(user);
         if (user.getId() != null) {
+            // 合并模型
+            ModelMerge.modelMergeByModel(user1, user);
             userService.registerUser(user1);
             jsonObject.put("code", 1);
             jsonObject.put("msg", "修改成功");
@@ -76,9 +82,12 @@ public class UserController {
      * @throws Exception
      */
     @RequestMapping("/login")
-    public void loginUser(User user, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void loginUser(@Valid User user, BindingResult bindingResult, HttpServletResponse response, HttpServletRequest request) throws Exception {
         JSONObject jsonObject = new JSONObject();
-        if (user != null && user.getUsername() != null && user.getPassword() != null) {
+        if (bindingResult.hasErrors()) {
+            jsonObject.put("code", 0);
+            jsonObject.put("msg", bindingResult.getFieldError().getDefaultMessage());
+        } else {
             User user1 = userService.findUser(user);
             if (user1 != null && user1.getUsername().equals(user.getUsername()) && user1.getPassword().equals(user.getUsername())) {
                 jsonObject.put("code", 1);
@@ -88,9 +97,6 @@ public class UserController {
                 jsonObject.put("code", 0);
                 jsonObject.put("msg", "登陆失败，请输入正确的的用户名或者密码");
             }
-        } else {
-            jsonObject.put("code", 0);
-            jsonObject.put("msg", "请输入用户名和密码");
         }
         ResponseUtil.write(response, jsonObject);
     }
@@ -203,4 +209,5 @@ public class UserController {
         }
         return map;
     }
+
 }

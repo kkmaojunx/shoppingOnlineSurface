@@ -43,11 +43,15 @@ public class UserServiceImpl implements UserService {
             public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 Predicate predicate = criteriaBuilder.conjunction();
                 if (user != null) {
-                    if (user.getUsername() != null) {
-                        predicate.getExpressions().add(criteriaBuilder.equal(root.get("username"), user.getUsername()));
-                    }
-                    if (user.getPassword() != null) {
-                        predicate.getExpressions().add(criteriaBuilder.equal(root.get("password"), user.getPassword()));
+                    if (user.getId() != null) {
+                        predicate.getExpressions().add(criteriaBuilder.equal(root.get("id"), user.getId()));
+                    } else {
+                        if (user.getUsername() != null) {
+                            predicate.getExpressions().add(criteriaBuilder.equal(root.get("username"), user.getUsername()));
+                        }
+                        if (user.getPassword() != null) {
+                            predicate.getExpressions().add(criteriaBuilder.equal(root.get("password"), user.getPassword()));
+                        }
                     }
                 }
                 return predicate;

@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,12 +20,18 @@ public class User implements Serializable {
     @GeneratedValue
     private Integer id;         // 主键
     @Column(length = 255)
+    @NotEmpty(message = "用户名不为空")
     private String username;    // 用户名
     @Column(length = 255)
+    @NotEmpty(message = "密码不为空")
     private String password;    // 密码
-    @Past                       // 必须为一个过去的时间
+    @Past(message = "必须为一个过去的时间")                       // 必须为一个过去的时间
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;      // 生日
+    @Column(length = 11)
+//    @Pattern(regexp = "^((13[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(147))\\\\d{8}$", message = "手机号码验证规则不通过")
+//    @NotEmpty(message = "电话号码不为空")
+    private Long phone;         // 电话号码
     @Column(length = 255)
     private String content;     // 个人介绍
     @Column(length = 255)
@@ -136,4 +144,13 @@ public class User implements Serializable {
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
+
+    public Long getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Long phone) {
+        this.phone = phone;
+    }
+
 }
