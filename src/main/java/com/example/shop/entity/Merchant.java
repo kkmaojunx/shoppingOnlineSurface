@@ -21,9 +21,20 @@ public class Merchant implements Serializable {
     private String name;        // 名字
     @Column(length = 255)
     private String imageHead;   // 头像
+    @Column(length = 255)
+    private String ipAddress;
     @Lob
     @Column(columnDefinition = "TEXT")
     private String content;     // 描述
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
     public Integer getId() {
         return id;
     }

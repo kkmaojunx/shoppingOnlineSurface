@@ -22,6 +22,8 @@ public class Activity implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "sid")
     private Set<File> fileid;
+    @Column(length = 255)
+    private String ipAddress;
 
     public Integer getId() {
         return id;
@@ -61,5 +63,13 @@ public class Activity implements Serializable {
 
     public void setFileid(Set<File> fileid) {
         this.fileid = fileid;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 }

@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public User findUserMainInfo(User user) {
+    public User findUserMainInfo(User user){
         return userRepository.getOne(user.getId());
     }
 }

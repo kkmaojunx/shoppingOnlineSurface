@@ -22,6 +22,8 @@ public class Shopping implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "sid")
     private Set<File> imageurl;      // 图片
+    @Column(length = 255)
+    private String ipAddress;
     private Integer oldmoney;      // 老旧的价格
     private Integer realmoney;     // 现在的价格
     @Lob
@@ -37,6 +39,14 @@ public class Shopping implements Serializable {
     @ManyToOne(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "merchant_id")
     private Merchant merchantid; // 商家信息
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
 
     public Integer getId() {
         return id;

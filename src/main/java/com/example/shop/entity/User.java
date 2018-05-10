@@ -1,6 +1,8 @@
 package com.example.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Past;
@@ -20,11 +22,12 @@ public class User implements Serializable {
     @Column(length = 255)
     private String password;    // 密码
     @Past                       // 必须为一个过去的时间
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;      // 生日
     @Column(length = 255)
     private String content;     // 个人介绍
     @Column(length = 255)
-    private String ipAddress;
+    private String ipAddress;   // ip地址
     @Column(length = 255)
     private String imageHead;   // 头像
     @Column(length = 255)

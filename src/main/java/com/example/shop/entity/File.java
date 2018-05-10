@@ -18,6 +18,16 @@ public class File implements Serializable {
     private String name;        // 图片名字
     @Column(length = 255)
     private String url;         // 图片url
+    @Column(length = 255)
+    private String ipAddress;
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
 
     public Integer getId() {
         return id;
