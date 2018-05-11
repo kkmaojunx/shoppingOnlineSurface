@@ -78,13 +78,13 @@ public class UserController {
                     jsonObject.put("msg", "密码修改失败，请检查后重新输入");
                 }
             }
-
         } else {
-            if (user.getUsername() != null && user.getPassword() != null) {
+            if (user.getUsername() != null && user.getPassword() != null && user.getUserStatus() != null) {
                 if (user1 != null) {
                     jsonObject.put("code", 0);
                     jsonObject.put("msg", "账号已经存在");
                 } else {
+                    user.setBirthday(new Date());
                     userService.registerUser(user);
                     jsonObject.put("code", 1);
                     jsonObject.put("msg", "注册成功");
@@ -121,6 +121,7 @@ public class UserController {
                 jsonObject.put("code", 1);
                 jsonObject.put("msg", "登陆成功");
                 jsonObject.put("info", user1.getId());
+                jsonObject.put("userStatus", user1.getUserStatus());
             } else {
                 jsonObject.put("code", 0);
                 jsonObject.put("msg", "登陆失败，请输入正确的的用户名或者密码");
@@ -185,10 +186,12 @@ public class UserController {
         user.setBackgroundLocal(user.getIpAddress() + user.getImageBackground());
         stringObjectMap.put("code", 1);
         stringObjectMap.put("msg", "成功");
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(user.getBirthday());
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-        user.setBirthday(calendar.getTime());
+        if (user.getBirthday() != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(user.getBirthday());
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            user.setBirthday(calendar.getTime());
+        }
         stringObjectMap.put("info", user);
         return stringObjectMap;
     }

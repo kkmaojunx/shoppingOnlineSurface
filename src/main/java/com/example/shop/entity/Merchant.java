@@ -26,6 +26,9 @@ public class Merchant implements Serializable {
     @Lob
     @Column(columnDefinition = "TEXT")
     private String content;     // 描述
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User userId;        // 用户id
 
     public String getIpAddress() {
         return ipAddress;
@@ -67,4 +70,23 @@ public class Merchant implements Serializable {
         this.content = content;
     }
 
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "Merchant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", imageHead='" + imageHead + '\'' +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", content='" + content + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
 }
