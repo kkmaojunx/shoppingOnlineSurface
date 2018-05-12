@@ -25,8 +25,11 @@ public class ModelMerge {
             field2.setAccessible(true);
             //  && !field1.get(a).equals(field2.get(b))
             try {
-                if (field2.get(b) != null && !field1.get(a).equals(field2.get(b))) {
-                    field1.set(a, field2.get(b));
+                if (field2.get(b) != null) {
+                    if (!field1.get(a).equals(field2.get(b))) {
+                        field1.set(a, field2.get(b));
+                        System.out.println(field1.get(a) + "=a=," + field2.get(b) + "=b=");
+                    }
                 }
             } catch (IllegalAccessException e) {
                 System.out.println("在合并类中转换出错了=======" + e.getMessage());
