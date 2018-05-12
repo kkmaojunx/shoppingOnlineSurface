@@ -14,7 +14,7 @@ public class FileUtil {
      * @return
      */
     public static String ipHttpAddress() throws UnknownHostException {
-        return "http://" + InetAddress.getLocalHost().getHostAddress()+"/";
+        return "http://" + InetAddress.getByName("www.zhangdanling.cn").getHostAddress()+"/";
     }
 
     public static String fileMiddleLocal() {
