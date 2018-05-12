@@ -16,7 +16,6 @@ public class ModelMerge {
     public static void modelMergeByModel(Object targetBean, Object sourceBean) {
         Class sourceBeanClass = sourceBean.getClass();
         Class targetBeanClass = targetBean.getClass();
-
         Field[] sourceFields = sourceBeanClass.getDeclaredFields();
         Field[] targetFields = targetBeanClass.getDeclaredFields();
         for (int i = 0; i < sourceFields.length; i++) {
