@@ -80,7 +80,6 @@ public class User implements Serializable {
     }
 
     public Date getBirthday() {
-        //这里由于有夏令营时间存在 这是要默认设置时区，@see http://www.cnblogs.com/memory4young/p/java-timezone.html
         return birthday;
     }
 
@@ -183,7 +182,7 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", birthday=" + birthday +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", content='" + content + '\'' +
                 ", ipAddress='" + ipAddress + '\'' +
                 ", imageHead='" + imageHead + '\'' +
