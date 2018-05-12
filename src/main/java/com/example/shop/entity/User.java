@@ -81,7 +81,6 @@ public class User implements Serializable {
 
     public Date getBirthday() {
         //这里由于有夏令营时间存在 这是要默认设置时区，@see http://www.cnblogs.com/memory4young/p/java-timezone.html
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+08"));
         return birthday;
     }
 
