@@ -60,12 +60,10 @@ public class UserController {
         JSONObject jsonObject = new JSONObject();
         User user1 = userService.findUser(user);
         if (user.getId() != null) {
-            if (user.getPassword() == null && rePassword == null) {
+            if (user.getPassword() == null || rePassword == null) {
                 // 合并模型
-                ModelMerge.modelMergeByModel(user1, user);
-                userService.registerUser(user1);
-                jsonObject.put("code", 1);
-                jsonObject.put("msg", "修改成功");
+                jsonObject.put("code", 0);
+                jsonObject.put("msg", "修改失败，请输入密码");
             } else {
                 if (user.getPassword() != null && rePassword != null && user.getPassword().equals(rePassword)) {
                     // 合并模型

@@ -32,7 +32,7 @@ public class User implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;                                       // 生日
-    @Column(length = 11)
+    @Column(length = 255)
     private String phone;         // 电话号码
     @Column(length = 255)
     private String content;     // 个人介绍
