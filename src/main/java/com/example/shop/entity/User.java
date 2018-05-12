@@ -9,6 +9,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -80,6 +82,12 @@ public class User implements Serializable {
     public Date getBirthday() {
         //这里由于有夏令营时间存在 这是要默认设置时区，@see http://www.cnblogs.com/memory4young/p/java-timezone.html
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+08"));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            birthday = simpleDateFormat.parse(birthday.toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return birthday;
     }
 
