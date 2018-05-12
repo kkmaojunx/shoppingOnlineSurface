@@ -33,7 +33,7 @@ public class User implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;                                       // 生日
     @Column(length = 11)
-    private Long phone;         // 电话号码
+    private String phone;         // 电话号码
     @Column(length = 255)
     private String content;     // 个人介绍
     @Column(length = 255)
@@ -88,11 +88,11 @@ public class User implements Serializable {
         this.birthday = birthday;
     }
 
-    public Long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
