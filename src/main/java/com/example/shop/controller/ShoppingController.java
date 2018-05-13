@@ -80,4 +80,19 @@ public class ShoppingController {
         stringObjectMap.put("info", shoppingList);
         return stringObjectMap;
     }
+
+    // 新增商品or修改商品
+    public Map<String, Object> saveOrUpdate(Shopping shopping) {
+        Map<String, Object> stringObjectMap = new HashMap<>();
+        if (shopping.getId() != null) {
+
+        } else {
+
+        }
+        return stringObjectMap;
+    }
+
+    // 删除商品
+
+    // 查询商家商品
 }

@@ -2,6 +2,7 @@ package com.example.shop.controller;
 
 import com.example.shop.entity.Merchant;
 import com.example.shop.server.MerchantService;
+import com.example.shop.util.ModelMerge;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -27,6 +28,7 @@ public class MerchantController {
 
     /**
      * 查询店铺通过用户的id
+     *
      * @param merchant
      * @return
      */
@@ -50,6 +52,7 @@ public class MerchantController {
 
     /**
      * 删除店铺通过店铺的id
+     *
      * @param merchant
      * @return
      */
@@ -71,6 +74,31 @@ public class MerchantController {
         return map;
     }
 
-    // 添加店铺或者修改店铺
-
+    /**
+     * 添加店铺或者修改店铺
+     *
+     * @param merchant
+     * @return
+     */
+    @ApiOperation(value = "新增或者修改店铺", notes = "修改用过店铺的id，新增通过用户的id")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "店铺的id", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "userId", value = "用户的id", required = false, dataType = "Integer")
+    })
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public Map<String, Object> saveOrUpdateMerchant(Merchant merchant) {
+        Map<String, Object> stringObjectMap = new HashMap<>();
+        if (merchant.getId() != null) {
+            Merchant merchant1 = merchantService.findOneMerchantByUserId(merchant);
+            ModelMerge.modelMergeByModel(merchant1, merchant);
+            merchantService.addMerchant(merchant1);
+            stringObjectMap.put("code", 1);
+            stringObjectMap.put("msg", "修改成功！");
+        } else {
+            merchantService.addMerchant(merchant);
+            stringObjectMap.put("code", 1);
+            stringObjectMap.put("msg", "添加成功！");
+        }
+        return stringObjectMap;
+    }
 }

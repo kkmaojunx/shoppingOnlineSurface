@@ -29,4 +29,16 @@ public interface ShoppingService {
      * @return
      */
     public List<Shopping> searchShoppingList(Shopping shopping);
+
+    /**
+     * 删除商品通过id
+     * @param id    商品id
+     */
+    public Integer deleteShoppingById(Integer id);
+
+    /**
+     * 修改or新增
+     * @param shopping
+     */
+    public void saveShopping(Shopping shopping);
 }

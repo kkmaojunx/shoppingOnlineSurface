@@ -11,7 +11,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "merchant")
-@JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
+@JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
 public class Merchant implements Serializable {
 
     @Id
@@ -29,6 +29,9 @@ public class Merchant implements Serializable {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User userId;        // 用户id
+
+    @Transient
+    private String imageHeadUrl;     // 头像的完整url
 
     public String getIpAddress() {
         return ipAddress;
@@ -78,15 +81,11 @@ public class Merchant implements Serializable {
         this.userId = userId;
     }
 
-    @Override
-    public String toString() {
-        return "Merchant{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", imageHead='" + imageHead + '\'' +
-                ", ipAddress='" + ipAddress + '\'' +
-                ", content='" + content + '\'' +
-                ", userId=" + userId +
-                '}';
+    public String getImageHeadUrl() {
+        return this.getIpAddress() + this.getImageHead();
+    }
+
+    public void setImageHeadUrl(String imageHeadUrl) {
+        this.imageHeadUrl = imageHeadUrl;
     }
 }

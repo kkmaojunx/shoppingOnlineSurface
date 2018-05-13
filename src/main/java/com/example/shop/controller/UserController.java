@@ -61,8 +61,6 @@ public class UserController {
         User user1 = userService.findUser(user);
         if (user.getId() != null) {
             if (user.getPassword() == null && rePassword == null) {
-                System.out.println("user1："+user1);
-                System.out.println("user："+user);
                 // 合并模型
                 ModelMerge.modelMergeByModel(user1, user);
                 userService.registerUser(user1);

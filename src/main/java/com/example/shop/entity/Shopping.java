@@ -23,7 +23,7 @@ public class Shopping implements Serializable {
     @JoinColumn(name = "sid")
     private Set<File> imageurl;      // 图片
     @Column(length = 255)
-    private String ipAddress;
+    private String ipAddress;       // IP地址
     private Integer oldmoney;      // 老旧的价格
     private Integer realmoney;     // 现在的价格
     @Lob

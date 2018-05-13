@@ -82,4 +82,28 @@ public class ShoppingServiceImpl implements ShoppingService {
         });
         return shoppingList;
     }
+
+    /**
+     * 删除商品通过id
+     * @param id    商品id
+     */
+    @Override
+    public Integer deleteShoppingById(Integer id) {
+        try {
+            shoppingRepository.deleteById(id);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    /**
+     * 修改or新增商品
+     * @param shopping
+     */
+    @Override
+    public void saveShopping(Shopping shopping) {
+
+    }
 }
