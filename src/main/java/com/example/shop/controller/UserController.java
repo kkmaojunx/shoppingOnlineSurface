@@ -5,6 +5,7 @@ import com.example.shop.entity.ShopTrolley;
 import com.example.shop.entity.User;
 import com.example.shop.server.ShopTrolleyService;
 import com.example.shop.server.UserService;
+import com.example.shop.util.DateUtil;
 import com.example.shop.util.FileUtil;
 import com.example.shop.util.ModelMerge;
 import com.example.shop.util.ResponseUtil;
@@ -217,9 +218,9 @@ public class UserController {
             map.put("msg", "请选择文件再进行上传");
             return map;
         }
-//        对内使用的路径地址
+        // 对内使用的路径地址
         String filePath = request.getServletContext().getRealPath("/");
-//        删除文件
+        // 删除文件
         String uploadFileName = null;
         if (user.getImageHead() != null) {
             uploadFileName = user.getImageHead();
@@ -230,10 +231,8 @@ public class UserController {
         if (files.exists()) {
             files.delete();
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHssmm");
-        String string = simpleDateFormat.format(new Date());
-//        图片名字
-        String fileName = FileUtil.fileMiddleLocal() + string + ".jpg";
+        // 图片名字
+        String fileName = FileUtil.fileMiddleLocal() + DateUtil.getDate(".jpg");
         java.io.File file = new java.io.File(filePath, fileName);
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
@@ -261,6 +260,7 @@ public class UserController {
 
     /**
      * 修改密码，验证原密码对不对
+     *
      * @param user
      * @return
      */

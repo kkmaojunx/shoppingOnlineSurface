@@ -11,7 +11,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "shopping")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
 public class Shopping implements Serializable {
 
     @Id
@@ -19,7 +19,7 @@ public class Shopping implements Serializable {
     private Integer id;         // 主键
     @Column(length = 255)
     private String title;        // 商品名字
-    @OneToMany(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "sid")
     private Set<File> imageurl;      // 图片
     @Column(length = 255)
@@ -30,13 +30,13 @@ public class Shopping implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String content;     // 商品描述
     private String hot;        // 热度    1 2 3 4
-    private String activity_img;
+    private String activity_img;    // 活动图片
     private Integer activity;   // 是否活动
     private Integer count;      // 查看次数
-    @OneToMany(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "shopid")
     private Set<ShopLabel> label;    // 商品标签
-    @ManyToOne(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "merchant_id")
     private Merchant merchantid; // 商家信息
 
@@ -105,7 +105,7 @@ public class Shopping implements Serializable {
     }
 
     public String getActivity_img() {
-        return activity_img;
+        return this.getIpAddress() + this.getActivity_img();
     }
 
     public void setActivity_img(String activity_img) {

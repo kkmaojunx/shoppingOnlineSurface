@@ -21,6 +21,9 @@ public class File implements Serializable {
     @Column(length = 255)
     private String ipAddress;
 
+    @Transient
+    private String imageUrl;    // 图片的完整url
+
     public String getIpAddress() {
         return ipAddress;
     }
@@ -61,4 +64,11 @@ public class File implements Serializable {
         this.sid = sid;
     }
 
+    public String getImageUrl() {
+        return this.getIpAddress() + this.getUrl();
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

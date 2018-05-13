@@ -88,13 +88,13 @@ public class ShoppingServiceImpl implements ShoppingService {
      * @param id    商品id
      */
     @Override
-    public Integer deleteShoppingById(Integer id) {
+    public boolean deleteShoppingById(Integer id) {
         try {
             shoppingRepository.deleteById(id);
-            return 1;
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return false;
         }
     }
 
@@ -103,7 +103,31 @@ public class ShoppingServiceImpl implements ShoppingService {
      * @param shopping
      */
     @Override
-    public void saveShopping(Shopping shopping) {
+    public boolean saveShopping(Shopping shopping) {
+        try {
+            shoppingRepository.save(shopping);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
+    /**
+     * 查询该商家所有的商品信息
+     * @param shopping
+     * @return
+     */
+    @Override
+    public List<Shopping> listShopByMerchantId(Shopping shopping) {
+        return shoppingRepository.findAll(new Specification<Shopping>() {
+            @Override
+            public Predicate toPredicate(Root<Shopping> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                Predicate predicate = criteriaBuilder.conjunction();
+                if (shopping.getMerchantid() != null) {
+                    predicate.getExpressions().add(criteriaBuilder.equal(root.get("merchantid"), shopping.getMerchantid().getId()));
+                }
+                return predicate;
+            }
+        });
     }
 }

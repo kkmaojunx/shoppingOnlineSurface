@@ -34,11 +34,18 @@ public interface ShoppingService {
      * 删除商品通过id
      * @param id    商品id
      */
-    public Integer deleteShoppingById(Integer id);
+    public boolean deleteShoppingById(Integer id);
 
     /**
      * 修改or新增
      * @param shopping
      */
-    public void saveShopping(Shopping shopping);
+    public boolean saveShopping(Shopping shopping);
+
+    /**
+     * 查询商品集通过商户id
+     * @param shopping
+     * @return
+     */
+    public List<Shopping> listShopByMerchantId(Shopping shopping);
 }
