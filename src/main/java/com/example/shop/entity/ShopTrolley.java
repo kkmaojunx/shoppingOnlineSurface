@@ -32,6 +32,9 @@ public class ShopTrolley implements Serializable {
     @JoinColumn(name = "label_id")
     private ShopLabel shoplabelid;                                        // 标签
     private Integer buy = 0;                                                // 是否购买 0:在购物车 1：已购买 2：退回 3：已发货 4：待发货
+    @ManyToOne
+    @JoinColumn(name = "merchant_id")                                   // 店铺id
+    private Merchant merchant;
     @Transient
     private String trolleyImg;                                          // 商品图片
     @Transient
@@ -129,6 +132,14 @@ public class ShopTrolley implements Serializable {
         this.hot = hot;
     }
 
+    public Merchant getMerchant() {
+        return merchant;
+    }
+
+    public void setMerchant(Merchant merchant) {
+        this.merchant = merchant;
+    }
+
     @Override
     public String toString() {
         return "ShopTrolley{" +
@@ -139,6 +150,7 @@ public class ShopTrolley implements Serializable {
                 ", shoppingid=" + shoppingid +
                 ", shoplabelid=" + shoplabelid +
                 ", buy=" + buy +
+                ", merchant=" + merchant +
                 ", trolleyImg='" + trolleyImg + '\'' +
                 ", money=" + money +
                 ", lableName='" + lableName + '\'' +

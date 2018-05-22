@@ -48,4 +48,10 @@ public interface ShoppingService {
      * @return
      */
     public List<Shopping> listShopByMerchantId(Shopping shopping);
+
+    /**
+     *
+     * @return
+     */
+    public List<Shopping> shopSoldByMerChantId();
 }

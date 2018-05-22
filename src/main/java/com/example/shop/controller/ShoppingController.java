@@ -202,19 +202,18 @@ public class ShoppingController {
 
     /**
      * 查询商家商品
-     * @param id
+     * @param merchant
      * @return
      */
     @ApiOperation(value = "查询商家商品", notes = "通过商家的id")
     @ApiImplicitParams(
-            @ApiImplicitParam(name = "id", value = "商家的id", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "id", value = "商家的id", required = false, dataType = "Integer")
     )
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public Map<String, Object> findAllShopByMerchantId(@RequestParam(value = "id", required = true) Integer id) {
+    @RequestMapping("/list")
+    public Map<String, Object> findAllShopByMerchantId(Merchant merchant) {
         Map<String, Object> stringObjectMap = new HashMap<>();
         Shopping shopping = new Shopping();
-        Merchant merchant = new Merchant();
-        merchant.setId(id);
+        System.out.println("这个id为："+merchant.getId());
         shopping.setMerchantid(merchant);
         List<Shopping> shoppingList = shoppingService.listShopByMerchantId(shopping);
         stringObjectMap.put("code", 1);
@@ -222,4 +221,6 @@ public class ShoppingController {
         stringObjectMap.put("info", shoppingList);
         return stringObjectMap;
     }
+
+//    public Map<String, Object>
 }
