@@ -105,7 +105,7 @@ public class Shopping implements Serializable {
     }
 
     public String getActivity_img() {
-        return this.getIpAddress() + this.getActivity_img();
+        return this.getIpAddress() + this.activity_img;
     }
 
     public void setActivity_img(String activity_img) {

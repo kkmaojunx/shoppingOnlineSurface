@@ -134,7 +134,10 @@ public class ShoppingController {
         //图片文件
         if (multipartFiles != null && multipartFiles.length > 0) {
             if (shopping.getImageurl() != null) {
+                for (MultipartFile f :
+                        multipartFiles) {
 
+                }
             } else {
 
             }
