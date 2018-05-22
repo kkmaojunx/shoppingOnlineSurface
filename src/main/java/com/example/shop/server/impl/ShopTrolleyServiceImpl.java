@@ -104,12 +104,22 @@ public class ShopTrolleyServiceImpl implements ShopTrolleyService {
     }
 
     /**
-     * 查询店家已购买商品
+     * 通过商家id查询商家的购买订单
      * @param id
      * @return
      */
     @Override
-    public List<Shopping> shopSoldByMerChantId(Integer id) {
-        return null;
+    public List<ShopTrolley> shopSoldByMerChantId(Integer id) {
+        return shopTrolleyRepository.findAll(new Specification<ShopTrolley>() {
+            @Override
+            public Predicate toPredicate(Root<ShopTrolley> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                Predicate predicate = criteriaBuilder.conjunction();
+                if (id != null) {
+                    predicate.getExpressions().add(criteriaBuilder.equal(root.get("merchant"), id));
+                }
+                return predicate;
+            }
+        });
     }
+
 }

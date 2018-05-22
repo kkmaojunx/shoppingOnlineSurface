@@ -49,5 +49,5 @@ public interface ShopTrolleyService {
      *查询商家的已购买商品
      * @return
      */
-    public List<Shopping> shopSoldByMerChantId(Integer id);
+    public List<ShopTrolley> shopSoldByMerChantId(Integer id);
 }

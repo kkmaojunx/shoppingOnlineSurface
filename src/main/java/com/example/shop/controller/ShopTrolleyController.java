@@ -8,6 +8,7 @@ import com.example.shop.util.ResponseUtil;
 import net.sf.json.JSONObject;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +28,7 @@ public class ShopTrolleyController {
 
     /**
      * 通过用户id查询购物车信息
+     *
      * @param trolley
      * @param response
      * @throws Exception
@@ -60,8 +62,9 @@ public class ShopTrolleyController {
 
     /**
      * 添加商品到购物车
-     * @param shopTrolley   userid用户id      shopid商品id  buy 1
-     * @param labelId       标签id
+     *
+     * @param shopTrolley userid用户id      shopid商品id  buy 1
+     * @param labelId     标签id
      * @param response
      * @throws Exception
      */
@@ -84,7 +87,8 @@ public class ShopTrolleyController {
 
     /**
      * 删除购物车的商品通过id
-     * @param id     购物车id
+     *
+     * @param id       购物车id
      * @param response
      */
     @RequestMapping("/delete")
@@ -108,7 +112,8 @@ public class ShopTrolleyController {
 
     /**
      * 购买购物车的商品
-     * @param ids   通过id数组
+     *
+     * @param ids      通过id数组
      * @param response
      * @throws Exception
      */
@@ -136,5 +141,40 @@ public class ShopTrolleyController {
         }
         ResponseUtil.write(response, jsonObject);
     }
+
+    /**
+     * 查询店家的已购买商品通过店家id
+     * @param id
+     * @return
+     */
+    @RequestMapping("/soldById")
+    public Map<String, Object> listSoldByMerchantId(@RequestParam(value = "id", required = false) Integer id) {
+        Map<String, Object> map = new HashMap<>();
+        if (id != null) {
+            List<ShopTrolley> shopTrolleys = shopTrolleyService.shopSoldByMerChantId(id);
+            Iterator<ShopTrolley> shopTrolleyIterator = shopTrolleys.iterator();
+            while (shopTrolleyIterator.hasNext()) {
+                ShopTrolley shopTrolley = shopTrolleyIterator.next();
+                shopTrolley.setTrolleyImg(shopTrolley.getShoppingid().getActivity_img());
+                shopTrolley.setShoptitle(shopTrolley.getShoppingid().getTitle());
+                shopTrolley.setMoney(shopTrolley.getShoppingid().getRealmoney());
+                shopTrolley.setLableName(shopTrolley.getShoplabelid().getName());
+                shopTrolley.setHot(Integer.valueOf(shopTrolley.getShoppingid().getHot()));
+                shopTrolley.setUserid(null);
+                shopTrolley.setShoppingid(null);
+                shopTrolley.setShoplabelid(null);
+            }
+            map.put("code", 1);
+            map.put("msg", "成功");
+            map.put("info", shopTrolleys);
+        } else {
+            map.put("code", 0);
+            map.put("msg", "失败，请发送店家id过来");
+        }
+
+
+        return map;
+    }
+
 
 }

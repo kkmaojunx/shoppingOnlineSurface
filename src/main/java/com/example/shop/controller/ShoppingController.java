@@ -222,5 +222,4 @@ public class ShoppingController {
         return stringObjectMap;
     }
 
-//    public Map<String, Object>
 }

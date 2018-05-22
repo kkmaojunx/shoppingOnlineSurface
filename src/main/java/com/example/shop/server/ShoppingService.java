@@ -50,4 +50,5 @@ public interface ShoppingService {
     public List<Shopping> listShopByMerchantId(Shopping shopping);
 
 
+
 }
