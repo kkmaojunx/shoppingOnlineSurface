@@ -1,6 +1,7 @@
 package com.example.shop.server;
 
 import com.example.shop.entity.ShopTrolley;
+import com.example.shop.entity.Shopping;
 import com.example.shop.entity.User;
 
 import java.util.List;
@@ -43,4 +44,10 @@ public interface ShopTrolleyService {
      * @return
      */
     public ShopTrolley findOneShopTrolley(Integer id);
+
+    /**
+     *查询商家的已购买商品
+     * @return
+     */
+    public List<Shopping> shopSoldByMerChantId(Integer id);
 }

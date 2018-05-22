@@ -1,6 +1,7 @@
 package com.example.shop.server.impl;
 
 import com.example.shop.entity.ShopTrolley;
+import com.example.shop.entity.Shopping;
 import com.example.shop.entity.User;
 import com.example.shop.repository.ShopTrolleyRepository;
 import com.example.shop.server.ShopTrolleyService;
@@ -100,5 +101,15 @@ public class ShopTrolleyServiceImpl implements ShopTrolleyService {
     @Override
     public ShopTrolley findOneShopTrolley(Integer id) {
         return shopTrolleyRepository.getOne(id);
+    }
+
+    /**
+     * 查询店家已购买商品
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Shopping> shopSoldByMerChantId(Integer id) {
+        return null;
     }
 }
