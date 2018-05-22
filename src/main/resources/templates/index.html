@@ -3,8 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <script src="http://www.jq22.com/jquery/bootstrap-3.3.4.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <script>
+        var socket;
+        if (typeof(WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        } else {
+            console.log("您的浏览器支持WebSocket");
+        }
+        socket = new WebSocket("ws://192.168.8.70/websocket");
+        //打开事件
+        socket.onopen = function () {
+            console.log("Socket 已打开");
+            //socket.send("这是来自客户端的消息" + location.href + new Date());
+        };
+        //获得消息事件
+        socket.onmessage = function (msg) {
+            console.log("后台发回来的消息为："+msg.data);
+            $("#xiaoxi").append("<p class='bg-primary'>" + msg.data + "</p>");
+            //发现消息进入    调后台获取
+        };
+        //关闭事件
+        socket.onclose = function () {
+            console.log("Socket已关闭");
+        };
+        //发生了错误事件
+        socket.onerror = function () {
+            alert("Socket发生了错误");
+        }
+        $(window).unload(function () {
+            socket.close();
+        });
+
+        function sendMessage() {
+            var text = $("#tt").val();
+            $.post("http://192.168.8.70/socket/sendAll", {"message": text}, function (data) {
+                if (data.mark) {
+
+                }
+            })
+        }
+
+        function sendMessageMy() {
+            $("#xiaoxi").append("<p class='bg-success'>" + $("#tt").val() + "</p>");
+            var text = $("#tt").val();
+            $.post("http://192.168.8.70/socket/send", {"message": text, "id": $("#msg").val()}, function (data) {
+                if (data.mark) {
+
+                }
+            })
+        }
+    </script>
 </head>
 <body>
+
+
+<div id="xiaoxi"></div>
+<textarea id="tt" class="form-control" rows="3"></textarea><br>
+请填写用户id：<input type="text" class="form-control" id="msg">
+<button class="btn btn-default" type="submit" onclick="sendMessageMy()">单独发送Button</button>
+
+
+<br><br><br>
+
+
+
+
+
+
+
+
+
+
+
+
 <h1><a href="http://www.zhangdanling.cn/swagger-ui.html#/">数据接口</a></h1>
 <h1>这是毛俊贤的毕业设计</h1>
 <h2>付款程度  0:在购物车 1：已购买 2：退回 3：已发货 4：待发货</h2>
