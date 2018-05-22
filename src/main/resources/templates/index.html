@@ -13,7 +13,7 @@
         } else {
             console.log("您的浏览器支持WebSocket");
         }
-        socket = new WebSocket("ws://192.168.8.70/websocket");
+        socket = new WebSocket("ws://www.zhangdanling.cn/websocket");
         //打开事件
         socket.onopen = function () {
             console.log("Socket 已打开");
@@ -39,7 +39,7 @@
 
         function sendMessage() {
             var text = $("#tt").val();
-            $.post("http://192.168.8.70/socket/sendAll", {"message": text}, function (data) {
+            $.post("http://www.zhangdanling.cn/socket/sendAll", {"message": text}, function (data) {
                 if (data.mark) {
 
                 }
@@ -49,7 +49,7 @@
         function sendMessageMy() {
             $("#xiaoxi").append("<p class='bg-success'>" + $("#tt").val() + "</p>");
             var text = $("#tt").val();
-            $.post("http://192.168.8.70/socket/send", {"message": text, "id": $("#msg").val()}, function (data) {
+            $.post("http://www.zhangdanling.cn/socket/send", {"message": text, "id": $("#msg").val()}, function (data) {
                 if (data.mark) {
 
                 }

@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * 活动实体类
+ */
 @Entity
 @Table(name = "activity")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})

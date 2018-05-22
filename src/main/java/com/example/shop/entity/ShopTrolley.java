@@ -7,6 +7,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * 购物车实体类
+ */
 @Entity
 @Table(name = "shoptrolley")
 @DynamicUpdate
