@@ -15,14 +15,7 @@ public class FileUtil {
      * @return
      */
     public static String ipHttpAddress() {
-        String ip = null;
-        try {
-            ip = "http://" + InetAddress.getByName("www.zhangdanling.cn").getHostAddress() + "/";
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-            System.out.println("错误：IP地址报错===" + e.getMessage());
-        }
-        return ip;
+        return "http://www.zhangdanling.cn/";
     }
 
     /**
