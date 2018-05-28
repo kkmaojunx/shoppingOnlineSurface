@@ -106,8 +106,8 @@ public class ShoppingController {
     @ApiImplicitParams(
             @ApiImplicitParam(name = "id", value = "商品的id", required = false, dataType = "Integer")
     )
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public Map<String, Object> saveOrUpdate(Shopping shopping, @RequestParam(value = "activityImg", required = false) MultipartFile activityImg , @RequestParam(value = "file", required = false) MultipartFile[] multipartFiles, HttpServletRequest request) {
+    @RequestMapping("/save")
+    public Map<String, Object> saveOrUpdate(Shopping shopping, File[] files, @RequestParam(value = "activityImg", required = false) MultipartFile activityImg , @RequestParam(value = "file", required = false) MultipartFile[] multipartFiles, HttpServletRequest request) {
         Map<String, Object> stringObjectMap = new HashMap<>();
         shopping.setIpAddress(FileUtil.ipHttpAddress());
         // 活动配图
@@ -176,7 +176,7 @@ public class ShoppingController {
     @ApiImplicitParams(
             @ApiImplicitParam(name = "ids", value = "id集", required = true, dataType = "String")
     )
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping("/delete")
     public Map<String, Object> deleteShopById(@RequestParam(value = "ids", required = true) String ids) {
         Map<String, Object> stringObjectMap = new HashMap<>();
         String[] strings = ids.split(",");
@@ -213,7 +213,6 @@ public class ShoppingController {
     public Map<String, Object> findAllShopByMerchantId(Merchant merchant) {
         Map<String, Object> stringObjectMap = new HashMap<>();
         Shopping shopping = new Shopping();
-        System.out.println("这个id为："+merchant.getId());
         shopping.setMerchantid(merchant);
         List<Shopping> shoppingList = shoppingService.listShopByMerchantId(shopping);
         stringObjectMap.put("code", 1);
