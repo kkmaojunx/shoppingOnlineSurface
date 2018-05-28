@@ -129,6 +129,24 @@ public class ShoppingController {
             if (shopping.getTitle() != null) {
                 shopping1.setTitle(shopping.getTitle());
             }
+            if (shopping.getOldmoney() != null) {
+             shopping1.setOldmoney(shopping.getOldmoney());
+            }
+            if (shopping.getRealmoney() != null) {
+                shopping1.setRealmoney(shopping.getRealmoney());
+            }
+            if (shopping.getContent() != null) {
+                shopping1.setContent(shopping.getContent());
+            }
+            if (shopping.getHot() != null) {
+                shopping1.setHot(shopping.getHot());
+            }
+            if (shopping.getActivity_img() != null) {
+                shopping1.setActivity_img(shopping.getActivity_img());
+            }
+            if (shopping.getActivity() != null) {
+                shopping1.setActivity(shopping.getActivity());
+            }
             boolean b = shoppingService.saveShopping(shopping1);
             if (b) {
                 stringObjectMap.put("code", 1);

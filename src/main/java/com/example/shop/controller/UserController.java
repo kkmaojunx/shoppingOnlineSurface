@@ -121,7 +121,7 @@ public class UserController {
             User user1 = userService.findUser(user);
             if (user1 != null && user1.getUsername().equals(user.getUsername()) && user1.getPassword().equals(user.getUsername())) {
                 Merchant merchant = new Merchant();
-                merchant.setUserId(user);
+                merchant.setUserId(user1);
                 merchant = merchantService.findOneMerchantByUserId(merchant);
                 jsonObject.put("code", 1);
                 jsonObject.put("msg", "登陆成功");
