@@ -20,3 +20,6 @@ spring:
   groovy:
     template:
       cache: false
+  servlet:
+    multipart:
+      max-file-size: 10Mb

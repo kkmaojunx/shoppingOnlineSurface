@@ -14,10 +14,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.json.JSONObject;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -57,7 +54,7 @@ public class UserController {
             @ApiImplicitParam(name = "rePassword", value = "修改密码的确认密码", required = false, dataType = "String")
     })
     @RequestMapping(value = "/register")
-    public void registerUser(User user, @RequestParam(value = "repetition", required = false) String rePassword, HttpServletResponse response) throws Exception {
+    public void registerUser(@ModelAttribute User user, @RequestParam(value = "repetition", required = false) String rePassword, HttpServletResponse response) throws Exception {
         JSONObject jsonObject = new JSONObject();
         User user1 = userService.findUser(user);
         if (user.getId() != null) {
@@ -92,7 +89,7 @@ public class UserController {
                 }
             } else {
                 jsonObject.put("code", 0);
-                jsonObject.put("msg", "请输入用户名和密码");
+                jsonObject.put("msg", "请输入用户名和密码以及你的用户状态");
             }
         }
         ResponseUtil.write(response, jsonObject);
@@ -151,7 +148,6 @@ public class UserController {
             ResponseUtil.write(response, jsonObject);
             return;
         }
-        System.out.println(user);
         userService.deleteUser(user);
         jsonObject.put("code", 1);
         jsonObject.put("msg", "删除成功");
@@ -211,7 +207,6 @@ public class UserController {
     })
     @RequestMapping(value = "/updateImage", method = RequestMethod.POST)
     public Map<String, Object> updateImage(@RequestParam("file") MultipartFile multipartFile, User user, HttpServletRequest request) throws Exception {
-        System.out.println(multipartFile);
         Map<String, Object> map = new HashMap<>();
         if (multipartFile.isEmpty()) {
             map.put("code", 0);

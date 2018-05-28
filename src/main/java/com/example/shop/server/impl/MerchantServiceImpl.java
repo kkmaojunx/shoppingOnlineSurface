@@ -44,7 +44,11 @@ public class MerchantServiceImpl implements MerchantService {
                     return predicate;
                 }
             });
-            merchant = merchant1.get();
+            if (merchant1.isPresent()) {
+                merchant = merchant1.get();
+            } else {
+                merchant = null;
+            }
         }
         return merchant;
     }

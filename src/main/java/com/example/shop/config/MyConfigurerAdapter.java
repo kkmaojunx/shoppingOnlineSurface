@@ -11,6 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MyConfigurerAdapter implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/test/**").addResourceLocations("/test");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/");
+        registry.addResourceHandler("/admin/**").addResourceLocations("classpath:/admin/");
+        registry.addResourceHandler("/merchant/**").addResourceLocations("classpath:/merchant/");
     }
 }

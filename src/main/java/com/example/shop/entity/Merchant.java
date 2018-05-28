@@ -1,6 +1,8 @@
 package com.example.shop.entity;
 
+import com.example.shop.util.FileUtil;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +13,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "merchant")
+@DynamicUpdate(value = false)
 @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
 public class Merchant implements Serializable {
 
@@ -34,7 +37,7 @@ public class Merchant implements Serializable {
     private String imageHeadUrl;     // 头像的完整url
 
     public String getIpAddress() {
-        return ipAddress;
+        return FileUtil.ipHttpAddress();
     }
 
     public void setIpAddress(String ipAddress) {
@@ -87,5 +90,18 @@ public class Merchant implements Serializable {
 
     public void setImageHeadUrl(String imageHeadUrl) {
         this.imageHeadUrl = imageHeadUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Merchant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", imageHead='" + imageHead + '\'' +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", content='" + content + '\'' +
+                ", userId=" + userId +
+                ", imageHeadUrl='" + imageHeadUrl + '\'' +
+                '}';
     }
 }
