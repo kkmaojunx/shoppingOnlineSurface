@@ -11,19 +11,13 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/shop")
@@ -107,7 +101,7 @@ public class ShoppingController {
             @ApiImplicitParam(name = "id", value = "商品的id", required = false, dataType = "Integer")
     )
     @RequestMapping("/save")
-    public Map<String, Object> saveOrUpdate(Shopping shopping, File[] files, @RequestParam(value = "activityImg", required = false) MultipartFile activityImg , @RequestParam(value = "file", required = false) MultipartFile[] multipartFiles, HttpServletRequest request) {
+    public Map<String, Object> saveOrUpdate(Shopping shopping, @RequestParam(value = "activityImg", required = false) MultipartFile activityImg , HttpServletRequest request) {
         Map<String, Object> stringObjectMap = new HashMap<>();
         shopping.setIpAddress(FileUtil.ipHttpAddress());
         // 活动配图
@@ -127,24 +121,14 @@ public class ShoppingController {
                 activityImg.transferTo(file);
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("上传错误信息：" + e.getMessage());
             }
             shopping.setActivity_img(filePath);
         }
-        //图片文件
-        if (multipartFiles != null && multipartFiles.length > 0) {
-            if (shopping.getImageurl() != null) {
-                for (MultipartFile f :
-                        multipartFiles) {
-
-                }
-            } else {
-
-            }
-        }
         if (shopping.getId() != null) {
             Shopping shopping1 = shoppingService.ShoppingById(shopping.getId());
-            ModelMerge.modelMergeByModel(shopping1, shopping);
+            if (shopping.getTitle() != null) {
+                shopping1.setTitle(shopping.getTitle());
+            }
             boolean b = shoppingService.saveShopping(shopping1);
             if (b) {
                 stringObjectMap.put("code", 1);

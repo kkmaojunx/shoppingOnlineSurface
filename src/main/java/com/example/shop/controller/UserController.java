@@ -1,8 +1,10 @@
 package com.example.shop.controller;
 
+import com.example.shop.entity.Merchant;
 import com.example.shop.entity.ObjectFlowAddress;
 import com.example.shop.entity.ShopTrolley;
 import com.example.shop.entity.User;
+import com.example.shop.server.MerchantService;
 import com.example.shop.server.ShopTrolleyService;
 import com.example.shop.server.UserService;
 import com.example.shop.util.DateUtil;
@@ -40,6 +42,8 @@ public class UserController {
     private UserService userService;
     @Resource
     private ShopTrolleyService shopTrolleyService;
+    @Resource
+    private MerchantService merchantService;
 
     /**
      * 用户注册 或者修改 ，有id就是修改，没有id就是注册
@@ -116,10 +120,14 @@ public class UserController {
         } else {
             User user1 = userService.findUser(user);
             if (user1 != null && user1.getUsername().equals(user.getUsername()) && user1.getPassword().equals(user.getUsername())) {
+                Merchant merchant = new Merchant();
+                merchant.setUserId(user);
+                merchant = merchantService.findOneMerchantByUserId(merchant);
                 jsonObject.put("code", 1);
                 jsonObject.put("msg", "登陆成功");
                 jsonObject.put("info", user1.getId());
                 jsonObject.put("userStatus", user1.getUserStatus());
+                jsonObject.put("merchantId", merchant.getId());
             } else {
                 jsonObject.put("code", 0);
                 jsonObject.put("msg", "登陆失败，请输入正确的的用户名或者密码");
