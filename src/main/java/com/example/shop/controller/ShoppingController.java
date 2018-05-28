@@ -2,7 +2,10 @@ package com.example.shop.controller;
 
 import com.example.shop.entity.File;
 import com.example.shop.entity.Merchant;
+import com.example.shop.entity.ShopLabel;
 import com.example.shop.entity.Shopping;
+import com.example.shop.server.FileService;
+import com.example.shop.server.ShopLabelService;
 import com.example.shop.server.ShoppingService;
 import com.example.shop.util.DateUtil;
 import com.example.shop.util.FileUtil;
@@ -10,6 +13,7 @@ import com.example.shop.util.ModelMerge;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import javafx.scene.control.Label;
 import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +29,10 @@ public class ShoppingController {
 
     @Resource
     private ShoppingService shoppingService;
+    @Resource
+    private FileService fileService;
+    @Resource
+    private ShopLabelService shopLabelService;
 
     /**
      * 查询单个商品通过商品id
@@ -36,6 +44,10 @@ public class ShoppingController {
     public Map<String, Object> shoppingById(@RequestParam(value = "id") Integer id) {
         Map<String, Object> stringObjectMap = new HashMap<>();
         Shopping shopping = shoppingService.ShoppingById(id);
+        if (shopping != null) {
+            shopping.setCount(shopping.getCount() + 1);
+            shoppingService.saveShopping(shopping);
+        }
         stringObjectMap.put("code", 1);
         stringObjectMap.put("msg", "成功");
         stringObjectMap.put("info", shopping);
@@ -101,7 +113,7 @@ public class ShoppingController {
             @ApiImplicitParam(name = "id", value = "商品的id", required = false, dataType = "Integer")
     )
     @RequestMapping("/save")
-    public Map<String, Object> saveOrUpdate(Shopping shopping, @RequestParam(value = "activityImg", required = false) MultipartFile activityImg , HttpServletRequest request) {
+    public Map<String, Object> saveOrUpdate(Shopping shopping, @RequestParam(value = "activityImg", required = false) MultipartFile activityImg, HttpServletRequest request) {
         Map<String, Object> stringObjectMap = new HashMap<>();
         shopping.setIpAddress(FileUtil.ipHttpAddress());
         // 活动配图
@@ -130,7 +142,7 @@ public class ShoppingController {
                 shopping1.setTitle(shopping.getTitle());
             }
             if (shopping.getOldmoney() != null) {
-             shopping1.setOldmoney(shopping.getOldmoney());
+                shopping1.setOldmoney(shopping.getOldmoney());
             }
             if (shopping.getRealmoney() != null) {
                 shopping1.setRealmoney(shopping.getRealmoney());
@@ -169,6 +181,73 @@ public class ShoppingController {
     }
 
     /**
+     * 修改or新增商品的图片
+     *
+     * @param file
+     * @param multipartFile
+     * @param request
+     * @return
+     */
+    @RequestMapping("/image")
+    public Map<String, Object> saveFileImage(File file, @RequestParam(value = "image", required = false) MultipartFile multipartFile, HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        if (file.getUrl() != null) {
+            java.io.File files = new java.io.File(FileUtil.filePath(request), file.getUrl());
+            if (files.exists()) {
+                files.delete();
+            }
+        }
+        if (!multipartFile.isEmpty()) {
+            String filePath = FileUtil.fileMiddleLocal() + DateUtil.getDate(".jpg");
+            java.io.File filess = new java.io.File(FileUtil.filePath(request), filePath);
+            if (!filess.getParentFile().exists()) {
+                filess.getParentFile().mkdirs();
+            }
+            try {
+                multipartFile.transferTo(filess);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            file.setUrl(filePath);
+        }
+        if (file.getId() != null) {
+            File file1 = fileService.findFileById(file);
+            file1.setUrl(file.getUrl());
+            fileService.saveFile(file1);
+            map.put("code", 1);
+            map.put("msg", "图片修改成功");
+        } else {
+            fileService.saveFile(file);
+            map.put("code", 1);
+            map.put("msg", "图片新增成功");
+        }
+        return map;
+    }
+
+    /**
+     * 新增or修改商品的标签
+     *
+     * @param shopLabel
+     * @return
+     */
+    @RequestMapping("/label")
+    public Map<String, Object> saveFileImage(ShopLabel shopLabel) {
+        Map<String, Object> map = new HashMap<>();
+        if (shopLabel.getId() != null) {
+            ShopLabel shopLabel1 = shopLabelService.findShopLabelById(shopLabel.getId());
+            if (shopLabel.getName() != null) {
+                shopLabel1.setName(shopLabel.getName());
+            }
+            shopLabelService.saveOrUpdateShopLabel(shopLabel1);
+        } else {
+            shopLabelService.saveOrUpdateShopLabel(shopLabel);
+            map.put("code", 1);
+            map.put("msg", "新增商品标签成功");
+        }
+        return map;
+    }
+
+    /**
      * 删除商品
      *
      * @param ids
@@ -204,6 +283,7 @@ public class ShoppingController {
 
     /**
      * 查询商家商品
+     *
      * @param merchant
      * @return
      */
