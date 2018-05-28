@@ -210,9 +210,11 @@ public class ShoppingController {
             }
             file.setUrl(filePath);
         }
+        file.setIpAddress(FileUtil.ipHttpAddress());
         if (file.getId() != null) {
             File file1 = fileService.findFileById(file);
             file1.setUrl(file.getUrl());
+            file1.setIpAddress(FileUtil.ipHttpAddress());
             fileService.saveFile(file1);
             map.put("code", 1);
             map.put("msg", "图片修改成功");
@@ -239,6 +241,8 @@ public class ShoppingController {
                 shopLabel1.setName(shopLabel.getName());
             }
             shopLabelService.saveOrUpdateShopLabel(shopLabel1);
+            map.put("code", 1);
+            map.put("msg", "修改商品标签成功");
         } else {
             shopLabelService.saveOrUpdateShopLabel(shopLabel);
             map.put("code", 1);
