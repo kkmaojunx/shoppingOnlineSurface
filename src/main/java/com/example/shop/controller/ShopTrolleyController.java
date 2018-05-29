@@ -163,6 +163,7 @@ public class ShopTrolleyController {
                 shopTrolley.setUserid(null);
                 shopTrolley.setShoppingid(null);
                 shopTrolley.setShoplabelid(null);
+                shopTrolley.setMerchant(null);
             }
             map.put("code", 1);
             map.put("msg", "成功");

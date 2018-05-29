@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.*;
 
@@ -48,7 +49,7 @@ public class ShoppingController {
             if (shopping.getCount() == null) {
                 shopping.setCount(0);
             }
-            shopping.setCount(shopping.getCount() + 1);
+            shopping.setCount(Optional.ofNullable(shopping).map(c -> c.getCount()).orElse(0) + 1);
             shoppingService.saveShopping(shopping);
         }
         stringObjectMap.put("code", 1);
