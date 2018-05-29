@@ -45,6 +45,9 @@ public class ShoppingController {
         Map<String, Object> stringObjectMap = new HashMap<>();
         Shopping shopping = shoppingService.ShoppingById(id);
         if (shopping != null) {
+            if (shopping.getCount() == null) {
+                shopping.setCount(0);
+            }
             shopping.setCount(shopping.getCount() + 1);
             shoppingService.saveShopping(shopping);
         }
@@ -172,6 +175,7 @@ public class ShoppingController {
             if (b) {
                 stringObjectMap.put("code", 1);
                 stringObjectMap.put("msg", "新增成功");
+                stringObjectMap.put("info", shopping.getId());
             } else {
                 stringObjectMap.put("code", 0);
                 stringObjectMap.put("msg", "新增失败");
@@ -213,7 +217,7 @@ public class ShoppingController {
         file.setIpAddress(FileUtil.ipHttpAddress());
         if (file.getId() != null) {
             File file1 = fileService.findFileById(file);
-            file1.setUrl(file.getUrl());
+            ModelMerge.modelMergeByModel(file1, file);
             file1.setIpAddress(FileUtil.ipHttpAddress());
             fileService.saveFile(file1);
             map.put("code", 1);
@@ -237,9 +241,7 @@ public class ShoppingController {
         Map<String, Object> map = new HashMap<>();
         if (shopLabel.getId() != null) {
             ShopLabel shopLabel1 = shopLabelService.findShopLabelById(shopLabel.getId());
-            if (shopLabel.getName() != null) {
-                shopLabel1.setName(shopLabel.getName());
-            }
+            ModelMerge.modelMergeByModel(shopLabel1, shopLabel);
             shopLabelService.saveOrUpdateShopLabel(shopLabel1);
             map.put("code", 1);
             map.put("msg", "修改商品标签成功");
