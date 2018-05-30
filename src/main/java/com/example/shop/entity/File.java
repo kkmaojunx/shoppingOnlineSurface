@@ -1,5 +1,6 @@
 package com.example.shop.entity;
 
+import com.example.shop.util.FileUtil;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -28,11 +29,11 @@ public class File implements Serializable {
     private String imageUrl;    // 图片的完整url
 
     public String getIpAddress() {
-        return ipAddress;
+        return FileUtil.ipHttpAddress();
     }
 
     public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
+        this.ipAddress = FileUtil.ipHttpAddress();
     }
 
     public Integer getId() {

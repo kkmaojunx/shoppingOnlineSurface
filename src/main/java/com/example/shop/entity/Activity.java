@@ -1,5 +1,6 @@
 package com.example.shop.entity;
 
+import com.example.shop.util.FileUtil;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -69,10 +70,10 @@ public class Activity implements Serializable {
     }
 
     public String getIpAddress() {
-        return ipAddress;
+        return FileUtil.ipHttpAddress();
     }
 
     public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
+        this.ipAddress = FileUtil.ipHttpAddress();
     }
 }

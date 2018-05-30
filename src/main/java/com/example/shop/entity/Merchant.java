@@ -41,7 +41,7 @@ public class Merchant implements Serializable {
     }
 
     public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
+        this.ipAddress = FileUtil.ipHttpAddress();
     }
 
     public Integer getId() {
