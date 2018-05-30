@@ -33,9 +33,9 @@
 <h3><a href="../user/userInfo?id=74">查看用户主页信息(id：用户的id)</a></h3>
 <h3><a href="../user/updateImage">修改用户头像或背景(id：用户的id)(imageHead：用户头像字段，imageBackground：用户背景字段 二选一)(file：上传的图片字段)</a></h3>
 <h2 style="color: red">收获地址</h2>
-<h3><a href="../address/list">查看用户的收货地址通过用户id(userId：用户的id) URL：http://www.zhangdanling.cn/address/list</a></h3>
-<h3><a href="../address/delete">用户删除收货地址通过收货地址id(ids：用户的id  例 ids="1,2,3" 多个id以字符串的形式发送) URL：http://www.zhangdanling.cn/address/delete</a></h3>
-<h3><a href="../address/save">用户新增或者修改收货地址，新增不发送收货地址id、修改发送地址id (userId：用户的id，address：用户的收货地址，phone：手机号码， name：收货人)URL：http://www.zhangdanling.cn/address/save</a></h3>
+<h3><a href="../address/list">查看用户的收货地址通过用户id(userId：用户的id)</a></h3>
+<h3><a href="../address/delete">用户删除收货地址通过收货地址id(ids：用户的id  例 ids="1,2,3" 多个id以字符串的形式发送)</a></h3>
+<h3><a href="../address/save">用户新增或者修改收货地址，新增不发送收货地址id、修改发送地址id (userId：用户的id，address：用户的收货地址，phone：手机号码， name：收货人)</a></h3>
 <h3><a href="../address/oneAddress">查看用户的一条收货地址(id：收货地址的id)</a></h3>
 <h2 style="color: red">店铺管理</h2>
 <h3><a href="../merchant/getByUserId">查看用户的店铺通过用户id（id：用户id）</a></h3>
@@ -47,6 +47,8 @@
 <h3><a href="../shop/delete">删除商品通过商品id（ids：商品id组，多个id通过“，”分割）</a></h3>
 <h3><a href="../shop/save">新增or修改商品通过商品id（id：商品id，title：商品的名字， oldmoney：老旧的价格， realmoney：现在的价格， content：商品的描述， hot：热度(1 2 3 4)， activity：是否活动(是活动则1，无活动则不发)， merchantid：店铺id， activityImg：活动的图片）</a></h3>
 <h3><a href="../shop/image">新增商品的图片通过商品的id，修改商品的图片通过图片id以及图片地址(sid：商品的id， id：图片id，url：图片的url， image：图片文件) 一次仅能上传一个文件和修改</a></h3>
+<h3><a href="../shop/deleteShopImage">删除商品的图片通过图片的id（id：图片id）</a></h3>
 <h3><a href="../shop/label">新增商品的标签通过商品的id，修改商品的标签通过标签id (shopid：商品的id， id：标签的id， name：标签的内容) 一次仅能新增一个商品标签和修改</a></h3>
+<h3><a href="../shop/deleteShopLabel">删除商品的标签通过标签的id（id：标签id）</a></h3>
 </body>
 </html>

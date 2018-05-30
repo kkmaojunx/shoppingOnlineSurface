@@ -290,6 +290,25 @@ public class ShoppingController {
     }
 
     /**
+     * 删除商品标签通过商品标签的id
+     * @param shopLabel
+     * @return
+     */
+    @RequestMapping("/deleteShopLabel")
+    public Map<String, Object> deleteShopLabel(ShopLabel shopLabel) {
+        Map<String, Object> map = new HashMap<>();
+        if (shopLabel != null) {
+            shopLabelService.deleteShopLabelById(shopLabel.getId());
+            map.put("code", 1);
+            map.put("msg", "删除商品标签成功");
+        } else {
+            map.put("code", 0);
+            map.put("msg", "删除商品标签失败");
+        }
+        return map;
+    }
+
+    /**
      * 删除商品
      *
      * @param ids

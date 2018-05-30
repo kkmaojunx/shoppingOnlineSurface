@@ -19,4 +19,10 @@ public interface ShopLabelService {
      * @param shopLabel
      */
     public void saveOrUpdateShopLabel(ShopLabel shopLabel);
+
+    /**
+     * 删除商品的标签通过标签id
+     * @param id 标签id
+     */
+    public void deleteShopLabelById(Integer id);
 }

@@ -25,4 +25,9 @@ public class ShopLabelServiceImpl implements ShopLabelService {
     public void saveOrUpdateShopLabel(ShopLabel shopLabel) {
         shopLabelRepository.save(shopLabel);
     }
+
+    @Override
+    public void deleteShopLabelById(Integer id) {
+        shopLabelRepository.deleteById(id);
+    }
 }
