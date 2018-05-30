@@ -1,11 +1,9 @@
 package com.example.shop.controller;
 
-import com.example.shop.entity.File;
-import com.example.shop.entity.Merchant;
-import com.example.shop.entity.ShopLabel;
-import com.example.shop.entity.Shopping;
+import com.example.shop.entity.*;
 import com.example.shop.server.FileService;
 import com.example.shop.server.ShopLabelService;
+import com.example.shop.server.ShopTrolleyService;
 import com.example.shop.server.ShoppingService;
 import com.example.shop.util.DateUtil;
 import com.example.shop.util.FileUtil;
@@ -34,6 +32,8 @@ public class ShoppingController {
     private FileService fileService;
     @Resource
     private ShopLabelService shopLabelService;
+    @Resource
+    private ShopTrolleyService shopTrolleyService;
 
     /**
      * 查询单个商品通过商品id
@@ -92,18 +92,24 @@ public class ShoppingController {
             return stringObjectMap;
         }
         List<Shopping> shoppingList = shoppingService.searchShoppingList(shopping);
-        Iterator<Shopping> shoppingIterator = shoppingList.listIterator();
-        while (shoppingIterator.hasNext()) {
-            Shopping shopping1 = shoppingIterator.next();
-            File file = (File) shopping1.getImageurl().toArray()[0];
-            shopping1.setActivity_img(shopping1.getIpAddress() + file.getUrl());
-            shopping1.setImageurl(null);
-            shopping1.setLabel(null);
-            shopping1.setMerchantid(null);
+        if (shoppingList != null) {
+            Iterator<Shopping> shoppingIterator = shoppingList.listIterator();
+            while (shoppingIterator.hasNext()) {
+                Shopping shopping1 = shoppingIterator.next();
+                File file = (File) shopping1.getImageurl().toArray()[0];
+                shopping1.setActivity_img(shopping1.getIpAddress() + file.getUrl());
+                shopping1.setImageurl(null);
+                shopping1.setLabel(null);
+                shopping1.setMerchantid(null);
+            }
+            stringObjectMap.put("code", 1);
+            stringObjectMap.put("msg", "成功");
+            stringObjectMap.put("info", shoppingList);
+        } else {
+            stringObjectMap.put("code", 1);
+            stringObjectMap.put("msg", "成功");
+            stringObjectMap.put("info", null);
         }
-        stringObjectMap.put("code", 1);
-        stringObjectMap.put("msg", "成功");
-        stringObjectMap.put("info", shoppingList);
         return stringObjectMap;
     }
 
@@ -302,7 +308,7 @@ public class ShoppingController {
     @RequestMapping("/deleteShopLabel")
     public Map<String, Object> deleteShopLabel(ShopLabel shopLabel) {
         Map<String, Object> map = new HashMap<>();
-        if (shopLabel != null) {
+        if (shopLabel.getId() != null) {
             shopLabelService.deleteShopLabelById(shopLabel.getId());
             map.put("code", 1);
             map.put("msg", "删除商品标签成功");
@@ -328,7 +334,19 @@ public class ShoppingController {
         Map<String, Object> stringObjectMap = new HashMap<>();
         String[] strings = ids.split(",");
         Integer count = 0;
+        ShopTrolley shopTrolley = new ShopTrolley();
         for (int i = 0; i < strings.length; i++) {
+            Shopping shopping = new Shopping();
+            shopping.setId(Integer.valueOf(strings[i]));
+            shopTrolley.setShoppingid(shopping);
+            List<ShopTrolley> shopTrolleys = shopTrolleyService.listShopTrolleyByShopId(shopTrolley);
+            if (shopTrolleys != null) {
+                Iterator iterator = shopTrolleys.iterator();
+                while (iterator.hasNext()) {
+                    ShopTrolley shopTrolley1 = (ShopTrolley) iterator.next();
+                    shopTrolleyService.deleteShopTrolleyByShopId(shopTrolley1.getId());
+                }
+            }
             boolean b = shoppingService.deleteShoppingById(Integer.valueOf(strings[i]));
             if (b) {
                 count++;

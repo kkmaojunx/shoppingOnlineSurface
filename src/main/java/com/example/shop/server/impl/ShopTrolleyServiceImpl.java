@@ -122,4 +122,34 @@ public class ShopTrolleyServiceImpl implements ShopTrolleyService {
         });
     }
 
+    /**
+     * 删除购物车商品通过商品id
+     * @param id
+     */
+    @Override
+    public void deleteShopTrolleyByShopId(Integer id) {
+        shopTrolleyRepository.deleteById(id);
+    }
+
+    /**
+     * 通过商品的id查询购物车
+     * @param shopTrolley
+     * @return
+     */
+    @Override
+    public List<ShopTrolley> listShopTrolleyByShopId(ShopTrolley shopTrolley) {
+        List<ShopTrolley> shopTrolleys = shopTrolleyRepository.findAll(new Specification<ShopTrolley>() {
+            @Override
+            public Predicate toPredicate(Root<ShopTrolley> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                Predicate predicate = criteriaBuilder.conjunction();
+                    if (shopTrolley.getShoppingid().getId() != null) {
+                        predicate.getExpressions().add(criteriaBuilder.equal(root.get("shoppingid"), shopTrolley.getShoppingid().getId()));
+                    }
+                return predicate;
+            }
+        });
+        return shopTrolleys;
+    }
+
+
 }

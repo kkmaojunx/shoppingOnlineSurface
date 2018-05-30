@@ -144,4 +144,23 @@ public class Shopping implements Serializable {
     public void setActivity_img(String activity_img) {
         this.activity_img = activity_img;
     }
+
+    @Override
+    public String toString() {
+        return "Shopping{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", imageurl=" + imageurl +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", oldmoney=" + oldmoney +
+                ", realmoney=" + realmoney +
+                ", content='" + content + '\'' +
+                ", hot='" + hot + '\'' +
+                ", activity_img='" + activity_img + '\'' +
+                ", activity=" + activity +
+                ", count=" + count +
+                ", label=" + label +
+                ", merchantid=" + merchantid +
+                '}';
+    }
 }

@@ -50,4 +50,18 @@ public interface ShopTrolleyService {
      * @return
      */
     public List<ShopTrolley> shopSoldByMerChantId(Integer id);
+
+    /**
+     * 删除购物车商品通过商品的id
+     * @param id
+     */
+    public void deleteShopTrolleyByShopId(Integer id);
+
+    /**
+     * 查询购物车通过商品id
+     * @param shopTrolley
+     * @return
+     */
+    public List<ShopTrolley> listShopTrolleyByShopId(ShopTrolley shopTrolley);
+
 }
