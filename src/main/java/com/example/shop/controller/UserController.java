@@ -26,10 +26,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 用户信息Controller类
@@ -119,18 +116,24 @@ public class UserController {
             jsonObject.put("msg", bindingResult.getFieldError().getDefaultMessage());
         } else {
             User user1 = userService.findUser(user);
-            if (user1 != null && user1.getUsername().equals(user.getUsername()) && user1.getPassword().equals(user.getUsername())) {
-                Merchant merchant = new Merchant();
-                merchant.setUserId(user1);
-                merchant = merchantService.findOneMerchantByUserId(merchant);
-                jsonObject.put("code", 1);
-                jsonObject.put("msg", "登陆成功");
-                jsonObject.put("info", user1.getId());
-                jsonObject.put("userStatus", user1.getUserStatus());
-                jsonObject.put("merchantId", merchant.getId());
+            if (user1 != null) {
+                if (user1.getUsername().equals(user.getUsername()) && user1.getPassword().equals(user1.getPassword())) {
+                    Merchant merchant = new Merchant();
+                    merchant.setUserId(user1);
+                    merchant = merchantService.findOneMerchantByUserId(merchant);
+                    jsonObject.put("code", 1);
+                    jsonObject.put("msg", "登陆成功");
+                    jsonObject.put("info", user1.getId());
+                    jsonObject.put("userStatus", user1.getUserStatus());
+                    System.out.println(Optional.ofNullable(merchant).map(c->c.getId()).orElse(0));
+                    jsonObject.put("merchantId", Optional.ofNullable(merchant).map(c->c.getId()).orElse(0));
+                } else {
+                    jsonObject.put("code", 0);
+                    jsonObject.put("msg", "登陆失败，用户名or密码不对，请重试");
+                }
             } else {
                 jsonObject.put("code", 0);
-                jsonObject.put("msg", "登陆失败，请输入正确的的用户名或者密码");
+                jsonObject.put("msg", "登陆失败，没有该用户存在");
             }
         }
         ResponseUtil.write(response, jsonObject);
