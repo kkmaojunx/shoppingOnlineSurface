@@ -205,18 +205,20 @@ public class ShoppingController {
                 files.delete();
             }
         }
-        if (!multipartFile.isEmpty()) {
-            String filePath = FileUtil.fileMiddleLocal() + DateUtil.getDate(".jpg");
-            java.io.File filess = new java.io.File(FileUtil.filePath(request), filePath);
-            if (!filess.getParentFile().exists()) {
-                filess.getParentFile().mkdirs();
+        if (multipartFile != null) {
+            if (!multipartFile.isEmpty()) {
+                String filePath = FileUtil.fileMiddleLocal() + DateUtil.getDate(".jpg");
+                java.io.File filess = new java.io.File(FileUtil.filePath(request), filePath);
+                if (!filess.getParentFile().exists()) {
+                    filess.getParentFile().mkdirs();
+                }
+                try {
+                    multipartFile.transferTo(filess);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                file.setUrl(filePath);
             }
-            try {
-                multipartFile.transferTo(filess);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            file.setUrl(filePath);
         }
         file.setIpAddress(FileUtil.ipHttpAddress());
         if (file.getId() != null) {
