@@ -311,6 +311,11 @@ public class ShoppingController {
         Shopping shopping = new Shopping();
         shopping.setMerchantid(merchant);
         List<Shopping> shoppingList = shoppingService.listShopByMerchantId(shopping);
+        Iterator iterator = shoppingList.iterator();
+        while (iterator.hasNext()) {
+            Shopping shopping1 = (Shopping) iterator.next();
+            shopping1.setActivity_img(FileUtil.ipHttpAddress() + shopping1.getActivity_img());
+        }
         stringObjectMap.put("code", 1);
         stringObjectMap.put("msg", "成功");
         stringObjectMap.put("info", shoppingList);
