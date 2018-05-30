@@ -144,25 +144,25 @@ public class ShoppingController {
         }
         if (shopping.getId() != null) {
             Shopping shopping1 = shoppingService.ShoppingById(shopping.getId());
-            if (shopping.getTitle() != null) {
+            if (shopping.getTitle() != null && !"".equals(shopping.getTitle())) {
                 shopping1.setTitle(shopping.getTitle());
             }
-            if (shopping.getOldmoney() != null) {
+            if (shopping.getOldmoney() != null && !"".equals(shopping.getOldmoney())) {
                 shopping1.setOldmoney(shopping.getOldmoney());
             }
-            if (shopping.getRealmoney() != null) {
+            if (shopping.getRealmoney() != null && !"".equals(shopping.getRealmoney())) {
                 shopping1.setRealmoney(shopping.getRealmoney());
             }
-            if (shopping.getContent() != null) {
+            if (shopping.getContent() != null && !"".equals(shopping.getContent())) {
                 shopping1.setContent(shopping.getContent());
             }
-            if (shopping.getHot() != null) {
+            if (shopping.getHot() != null && !"".equals(shopping.getHot())) {
                 shopping1.setHot(shopping.getHot());
             }
-            if (shopping.getActivity_img() != null) {
+            if (shopping.getActivity_img() != null && !"".equals(shopping.getActivity_img())) {
                 shopping1.setActivity_img(shopping.getActivity_img());
             }
-            if (shopping.getActivity() != null) {
+            if (shopping.getActivity() != null && !"".equals(shopping.getActivity())) {
                 shopping1.setActivity(shopping.getActivity());
             }
             boolean b = shoppingService.saveShopping(shopping1);
@@ -240,6 +240,7 @@ public class ShoppingController {
 
     /**
      * 删除文件
+     *
      * @param file
      * @param request
      * @return
@@ -291,6 +292,7 @@ public class ShoppingController {
 
     /**
      * 删除商品标签通过商品标签的id
+     *
      * @param shopLabel
      * @return
      */
