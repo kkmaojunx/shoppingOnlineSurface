@@ -52,6 +52,7 @@ public class ShoppingController {
             shopping.setCount(Optional.ofNullable(shopping).map(c -> c.getCount()).orElse(0) + 1);
             shoppingService.saveShopping(shopping);
         }
+        shopping.setActivity_img(shopping.getIpAddress() + shopping.getActivity_img());
         stringObjectMap.put("code", 1);
         stringObjectMap.put("msg", "成功");
         stringObjectMap.put("info", shopping);
