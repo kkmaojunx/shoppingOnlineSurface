@@ -16,4 +16,10 @@ public interface FileService {
      * @return
      */
     public File findFileById(File file);
+
+    /**
+     * 删除图片通过图片的id
+     * @param id 图片id
+     */
+    public void deleteFileById(Integer id);
 }

@@ -127,18 +127,20 @@ public class ShoppingController {
                 file.delete();
             }
         }
-        if (!activityImg.isEmpty()) {
-            String filePath = FileUtil.fileMiddleLocal() + DateUtil.getDate(".jpg");
-            java.io.File file = new java.io.File(FileUtil.filePath(request), filePath);
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
+        if (activityImg != null) {
+            if (!activityImg.isEmpty()) {
+                String filePath = FileUtil.fileMiddleLocal() + DateUtil.getDate(".jpg");
+                java.io.File file = new java.io.File(FileUtil.filePath(request), filePath);
+                if (!file.getParentFile().exists()) {
+                    file.getParentFile().mkdirs();
+                }
+                try {
+                    activityImg.transferTo(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                shopping.setActivity_img(filePath);
             }
-            try {
-                activityImg.transferTo(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            shopping.setActivity_img(filePath);
         }
         if (shopping.getId() != null) {
             Shopping shopping1 = shoppingService.ShoppingById(shopping.getId());
@@ -232,6 +234,32 @@ public class ShoppingController {
             fileService.saveFile(file);
             map.put("code", 1);
             map.put("msg", "图片新增成功");
+        }
+        return map;
+    }
+
+    /**
+     * 删除文件
+     * @param file
+     * @param request
+     * @return
+     */
+    @RequestMapping("/deleteShopImage")
+    public Map<String, Object> deleteImage(File file, HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        if (file.getUrl() != null) {
+            java.io.File file1 = new java.io.File(request.getServletContext().getRealPath("/"), file.getUrl());
+            if (file1.exists()) {
+                file1.delete();
+            }
+        }
+        if (file.getId() != null) {
+            fileService.deleteFileById(file.getId());
+            map.put("code", 1);
+            map.put("msg", "文件删除成功");
+        } else {
+            map.put("code", 0);
+            map.put("msg", "请传入文件的id");
         }
         return map;
     }

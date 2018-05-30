@@ -25,4 +25,9 @@ public class FileServiceImpl implements FileService {
     public File findFileById(File file) {
         return fileRepository.getOne(file.getId());
     }
+
+    @Override
+    public void deleteFileById(Integer id) {
+        fileRepository.deleteById(id);
+    }
 }
