@@ -125,7 +125,6 @@ public class UserController {
                     jsonObject.put("msg", "登陆成功");
                     jsonObject.put("info", user1.getId());
                     jsonObject.put("userStatus", user1.getUserStatus());
-                    System.out.println(Optional.ofNullable(merchant).map(c->c.getId()).orElse(0));
                     jsonObject.put("merchantId", Optional.ofNullable(merchant).map(c->c.getId()).orElse(0));
                 } else {
                     jsonObject.put("code", 0);
