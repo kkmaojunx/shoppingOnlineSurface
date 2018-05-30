@@ -104,14 +104,6 @@ public class Shopping implements Serializable {
         this.hot = hot;
     }
 
-    public String getActivity_img() {
-        return this.getIpAddress() + this.activity_img;
-    }
-
-    public void setActivity_img(String activity_img) {
-        this.activity_img = activity_img;
-    }
-
     public Integer getActivity() {
         return activity;
     }
@@ -142,5 +134,13 @@ public class Shopping implements Serializable {
 
     public void setMerchantid(Merchant merchantid) {
         this.merchantid = merchantid;
+    }
+
+    public String getActivity_img() {
+        return activity_img;
+    }
+
+    public void setActivity_img(String activity_img) {
+        this.activity_img = activity_img;
     }
 }

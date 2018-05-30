@@ -218,7 +218,12 @@ public class ShoppingController {
         file.setIpAddress(FileUtil.ipHttpAddress());
         if (file.getId() != null) {
             File file1 = fileService.findFileById(file);
-            ModelMerge.modelMergeByModel(file1, file);
+            if (file.getUrl() != null) {
+                file1.setUrl(file.getUrl());
+            }
+            if (file.getName() != null) {
+                file1.setName(file.getName());
+            }
             file1.setIpAddress(FileUtil.ipHttpAddress());
             fileService.saveFile(file1);
             map.put("code", 1);
@@ -242,7 +247,9 @@ public class ShoppingController {
         Map<String, Object> map = new HashMap<>();
         if (shopLabel.getId() != null) {
             ShopLabel shopLabel1 = shopLabelService.findShopLabelById(shopLabel.getId());
-            ModelMerge.modelMergeByModel(shopLabel1, shopLabel);
+            if (shopLabel.getName() != null) {
+                shopLabel1.setName(shopLabel.getName());
+            }
             shopLabelService.saveOrUpdateShopLabel(shopLabel1);
             map.put("code", 1);
             map.put("msg", "修改商品标签成功");
