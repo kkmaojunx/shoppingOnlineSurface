@@ -95,7 +95,7 @@ public class ShoppingController {
         while (shoppingIterator.hasNext()) {
             Shopping shopping1 = shoppingIterator.next();
             File file = (File) shopping1.getImageurl().toArray()[0];
-            shopping1.setActivity_img(file.getUrl());
+            shopping1.setActivity_img(shopping1.getIpAddress() + file.getUrl());
             shopping1.setImageurl(null);
             shopping1.setLabel(null);
             shopping1.setMerchantid(null);
