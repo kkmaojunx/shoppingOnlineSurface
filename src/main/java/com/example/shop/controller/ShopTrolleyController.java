@@ -4,6 +4,7 @@ import com.example.shop.entity.ShopLabel;
 import com.example.shop.entity.ShopTrolley;
 import com.example.shop.entity.User;
 import com.example.shop.server.ShopTrolleyService;
+import com.example.shop.util.FileUtil;
 import com.example.shop.util.ResponseUtil;
 import net.sf.json.JSONObject;
 import org.springframework.ui.ModelMap;
@@ -44,7 +45,7 @@ public class ShopTrolleyController {
             Iterator<ShopTrolley> shopTrolleyIterator = shopTrolleys.iterator();
             while (shopTrolleyIterator.hasNext()) {
                 ShopTrolley shopTrolley = shopTrolleyIterator.next();
-                shopTrolley.setTrolleyImg(shopTrolley.getShoppingid().getActivity_img());
+                shopTrolley.setTrolleyImg(FileUtil.ipHttpAddress() + shopTrolley.getShoppingid().getActivity_img());
                 shopTrolley.setShoptitle(shopTrolley.getShoppingid().getTitle());
                 shopTrolley.setMoney(shopTrolley.getShoppingid().getRealmoney());
                 shopTrolley.setLableName(shopTrolley.getShoplabelid().getName());
@@ -144,6 +145,7 @@ public class ShopTrolleyController {
 
     /**
      * 查询店家的已购买商品通过店家id
+     *
      * @param id
      * @return
      */
@@ -155,7 +157,7 @@ public class ShopTrolleyController {
             Iterator<ShopTrolley> shopTrolleyIterator = shopTrolleys.iterator();
             while (shopTrolleyIterator.hasNext()) {
                 ShopTrolley shopTrolley = shopTrolleyIterator.next();
-                shopTrolley.setTrolleyImg(shopTrolley.getShoppingid().getActivity_img());
+                shopTrolley.setTrolleyImg(FileUtil.ipHttpAddress() + shopTrolley.getShoppingid().getActivity_img());
                 shopTrolley.setShoptitle(shopTrolley.getShoppingid().getTitle());
                 shopTrolley.setMoney(shopTrolley.getShoppingid().getRealmoney());
                 shopTrolley.setLableName(shopTrolley.getShoplabelid().getName());
@@ -172,8 +174,6 @@ public class ShopTrolleyController {
             map.put("code", 0);
             map.put("msg", "失败，请发送店家id过来");
         }
-
-
         return map;
     }
 
