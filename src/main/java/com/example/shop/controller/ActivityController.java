@@ -31,22 +31,7 @@ public class ActivityController {
     @RequestMapping("/list")
     public Map<String, Object> activityList(@RequestParam(value = "id", required = false) Integer id) {
         Map<String, Object> stringObjectMap = new HashMap<>();
-        Shopping shopping = new Shopping();
-        shopping.setActivity(id);
-        List<Shopping> shoppingList = shoppingService.activityShoppingList(shopping);
-        List<Activity> activities = new ArrayList<>();
-        if (shoppingList != null && shoppingList.size() > 0) {
-            Iterator iterator = shoppingList.iterator();
-            while (iterator.hasNext()) {
-                Shopping shopping1 = (Shopping) iterator.next();
-                if (shopping1 != null) {
-                    Activity activity = new Activity();
-                    activity.setShopid(shopping1.getId());
-                    activity.setImageUrl(shopping1.getIpAddress() + shopping1.getActivity_img());
-                    activities.add(activity);
-                }
-            }
-        }
+        List<Activity> activities = activityService.activityList(id);
         stringObjectMap.put("code", 1);
         stringObjectMap.put("msg", "成功");
         stringObjectMap.put("info", activities);
